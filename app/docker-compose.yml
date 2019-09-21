@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+  sitecore:
+    image: sitecore:latest
+    depends_on: 
+      - identity
+      - xconnect
+    ports:
+      - "2222:80"
+    env_file:
+      - variables.env
+    volumes:
+      - C:\docker\sitecore\logs:C:\inetpub\wwwroot\App_Data\logs
+  identity: 
+    image: identity:latest
+    ports:
+      - "3333:80"
+    env_file: 
+      - variables.env
+  xconnect:
+    image: xconnect:latest
+    ports:
+      - "4444:80"
+    env_file:
+      - variables.env
+  xconnect-indexworker:
+    image: xconnect.indexworker:latest
+    depends_on: 
+      - xconnect
+    env_file:
+      - variables.env
+  xconnect-maengine:
+    image: xconnect.maengine:latest
+    depends_on: 
+      - xconnect
+    env_file:
+      - variables.env
+  xconnect-processingengine:
+    image: xconnect.processingengine:latest
+    depends_on: 
+      - xconnect
+    env_file:
+      - variables.env
+

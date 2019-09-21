@@ -1,0 +1,71 @@
+{
+	"configuration": 
+	[
+		{
+			"path": "App_Config/ConnectionStrings.config",
+			"mappings":
+			[
+				{
+					"xpath": "connectionStrings/add[@name='processing.engine.storage']",
+					"property": "connectionString",
+					"value": "$env:SC_PROC_STORAGE_CONN_STRING"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='processing.engine.tasks']",
+					"property": "connectionString",
+					"value": "$env:SC_PROC_TASKS_CONN_STRING"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='processing.webapi.blob']",
+					"property": "connectionString",
+					"value": "$env:XC_URL"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='processing.webapi.table']",
+					"property": "connectionString",
+					"value": "$env:XC_URL"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='xconnect.collection']",
+					"property": "connectionString",
+					"value": "$env:XC_URL"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='xconnect.collection.certificate']",
+					"property": "connectionString",
+					"value": "$env:XC_CERT_CONN_STRING"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='xconnect.configuration']",
+					"property": "connectionString",
+					"value": "$env:XC_URL"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='xconnect.configuration.certificate']",
+					"property": "connectionString",
+					"value": "$env:XC_CERT_CONN_STRING"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='xconnect.search']",
+					"property": "connectionString",
+					"value": "$env:XC_URL"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='xconnect.search.certificate']",
+					"property": "connectionString",
+					"value": "$env:XC_CERT_CONN_STRING"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='messaging']",
+					"property": "connectionString",
+					"value": "$env:SC_MESSAGING_CONN_STRING"
+				},
+				{
+					"xpath": "connectionStrings/add[@name='reporting']",
+					"property": "connectionString",
+					"value": "$env:SC_REPORTING_CONN_STRING"
+				}
+			]
+		}
+	]
+}
