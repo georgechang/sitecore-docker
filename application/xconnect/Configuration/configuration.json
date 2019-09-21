@@ -46,6 +46,21 @@
 					"value": "$env:SOLR_XDB_CORE_URL"
 				}
 			]
+		},
+		{
+			"path": "App_Config/AppSettings.config",
+			"mappings":[
+				{
+					"xpath": "appSettings/add[@key='AllowInvalidClientCertificates']",
+					"property": "value",
+					"value": "true"
+				},
+				{
+					"xpath": "appSettings/add[@key='validateCertificateThumbprint']",
+					"property": "value",
+					"value": "2A76092682319568F54DF51D1A4DDB40C7A1AFCF"
+				}
+			]
 		}
 	]
 }
