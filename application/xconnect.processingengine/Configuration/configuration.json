@@ -66,6 +66,29 @@
 					"value": "$env:SC_REPORTING_CONN_STRING"
 				}
 			]
+		},
+		{
+			"path": "App_Config/AppSettings.config",
+			"mappings":
+			[
+				{
+					"xpath": "appSettings/add[@key='AllowInvalidClientCertificates']",
+					"property": "value",
+					"value": "true"
+				}
+			]
 		}
-	]
+	],
+  "certificates":
+  [
+    {
+      "path": "/certificates/root.cer",
+      "store": "cert:/localmachine/root"
+    },
+    {
+      "path": "/certificates/cert.pfx",
+      "secret": "secret",
+      "store": "cert:/localmachine/my"
+    }
+  ]
 }

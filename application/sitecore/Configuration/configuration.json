@@ -295,5 +295,17 @@
 				}
 			]
 		}
-	]
+	],
+  "certificates":
+  [
+    {
+      "path": "/certificates/root.cer",
+      "store": "cert:/localmachine/root"
+    },
+    {
+      "path": "/certificates/cert.pfx",
+      "secret": "secret",
+      "store": "cert:/localmachine/my"
+    }
+  ]
 }

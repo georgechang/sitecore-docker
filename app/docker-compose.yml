@@ -3,42 +3,56 @@ services:
   sitecore:
     image: sitecore:latest
     depends_on: 
-      - identity
+      #- identity
       - xconnect
     ports:
       - "2222:80"
     env_file:
       - variables.env
     volumes:
-      - C:\docker\sitecore\logs:C:\inetpub\wwwroot\App_Data\logs
-  identity: 
-    image: identity:latest
-    ports:
-      - "3333:80"
-    env_file: 
-      - variables.env
+      - C:/docker/sitecore/logs:C:/inetpub/wwwroot/App_Data/logs
+      - C:/docker/sitecore/certificates:C:/certificates
+      - C:/docker/license:C:/license
+  # identity: 
+  #   image: identity:latest
+  #   ports:
+  #     - "3333:80"
+  #   env_file: 
+  #     - variables.env
+  #   volumes:
+  #     - C:/docker/license:C:/license
   xconnect:
     image: xconnect:latest
     ports:
       - "4444:80"
     env_file:
       - variables.env
+    volumes:
+      - C:/docker/xconnect/certificates:C:/certificates
+      - C:/docker/license:C:/license
   xconnect-indexworker:
     image: xconnect.indexworker:latest
     depends_on: 
       - xconnect
     env_file:
       - variables.env
+    volumes:
+      - C:/docker/license:C:/license      
   xconnect-maengine:
     image: xconnect.maengine:latest
     depends_on: 
       - xconnect
     env_file:
       - variables.env
+    volumes:
+      - C:/docker/xconnect.maengine/certificates:C:/certificates
+      - C:/docker/license:C:/license
   xconnect-processingengine:
     image: xconnect.processingengine:latest
     depends_on: 
       - xconnect
     env_file:
       - variables.env
-
+    volumes:
+      - C:/docker/xconnect.processingengine/certificates:C:/certificates
+      - C:/docker/license:C:/license

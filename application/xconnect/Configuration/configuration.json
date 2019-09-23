@@ -58,9 +58,21 @@
 				{
 					"xpath": "appSettings/add[@key='validateCertificateThumbprint']",
 					"property": "value",
-					"value": "2A76092682319568F54DF51D1A4DDB40C7A1AFCF"
+					"value": "$env:XC_CERT_THUMBPRINT"
 				}
 			]
 		}
-	]
+  ],
+  "certificates":
+  [
+    {
+      "path": "/certificates/root.cer",
+      "store": "cert:/localmachine/root"
+    },
+    {
+      "path": "/certificates/cert.pfx",
+      "secret": "secret",
+      "store": "cert:/localmachine/my"
+    }
+  ]
 }

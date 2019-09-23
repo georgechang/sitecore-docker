@@ -1,10 +1,6 @@
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
-
-# RUN Invoke-WebRequest https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-06DD46E5F81D/NDP472-KB4054530-x86-x64-AllOS-ENU.exe -OutFile C:\netfx-472.exe
-
-# RUN C:\netfx-472.exe /q /norestart
-
-COPY /base/common/configuration /configuration
+RUN Invoke-WebRequest https://aka.ms/vs/16/release/vc_redist.x64.exe -Outfile C:\vc_redist.x64.exe
+RUN C:\vc_redist.x64.exe /install /passive /norestart
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN Enable-LocalUser Administrator; \
     SecEdit.exe /export /cfg secpol.cfg; \
@@ -13,4 +9,7 @@ RUN Enable-LocalUser Administrator; \
     SecEdit.exe /configure /db C:\Windows\Security\Local.sdb /cfg secpol.cfg /areas SECURITYPOLICY; \
     Remove-Item secpol.cfg; \
     Set-LocalUser Administrator -Password (New-Object SecureString)
+USER ContainerAdministrator
+RUN icacls 'C:\inetpub\wwwroot' /grant 'IIS_IUSRS:(OI)(CI)F' /T
+COPY /base/common/configuration /configuration
 ENTRYPOINT ["powershell"]
