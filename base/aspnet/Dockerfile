@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
+ARG WINVERSION
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-${WINVERSION}
 RUN Invoke-WebRequest https://aka.ms/vs/16/release/vc_redist.x64.exe -Outfile C:\vc_redist.x64.exe
 RUN C:\vc_redist.x64.exe /install /passive /norestart
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]

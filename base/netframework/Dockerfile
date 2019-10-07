@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/dotnet/framework/runtime:4.8
+ARG WINVERSION
+FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-${WINVERSION}
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN Enable-LocalUser Administrator; \
     SecEdit.exe /export /cfg secpol.cfg; \
