@@ -1,0 +1,1 @@
+az aks create -g aks -n sc920 --node-count 1 --enable-addons monitoring --kubernetes-version 1.15.3 --generate-ssh-keys --windows-admin-password Pass@word123! --windows-admin-username azureuser --vm-set-type VirtualMachineScaleSets --network-plugin azure --node-pool-name linux --node-vm-size Standard_B2ms

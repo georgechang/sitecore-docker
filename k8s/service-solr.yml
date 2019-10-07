@@ -6,7 +6,5 @@ spec:
   selector:
     app: solr
   ports:
-  - port: 8983
+    - port: 8983
   type: LoadBalancer
-  externalIPs:
-    - 192.168.10.153

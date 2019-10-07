@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: solr
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: solr
@@ -13,14 +13,16 @@ spec:
         app: solr
     spec:
       containers:
-      - name: solr
-        image: solr:7
-        env:
-        - name: ZK_HOST
-          value: "zookeeper.default.svc.cluster.local:2181"
-        resources:
-          limits:
-            memory: 512Mi
-            cpu: 500m
-        ports:
-        - containerPort: 8983
+        - name: solr
+          image: solr:7
+          env:
+            - name: ZK_HOST
+              value: "zookeeper.default.svc.cluster.local:2181"
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 200m
+          ports:
+            - containerPort: 8983
+      nodeSelector:
+        kubernetes.io/os: linux
