@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sitecore
-          image: george.azurecr.io/sitecore:latest
+          image: george.azurecr.io/sitecore:1809-9.2
           envFrom:
             - configMapRef:
                 name: sitecore

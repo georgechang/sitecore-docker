@@ -1,4 +1,4 @@
-$winversion = "1903"
+$winversion = "1809"
 $scversion = "9.2"
 
 # build base images
