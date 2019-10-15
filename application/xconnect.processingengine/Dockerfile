@@ -1,6 +1,6 @@
 ARG WINVERSION
 ARG SCVERSION
-FROM scbase-netframework:${WINVERSION}-${SCVERSION}
+FROM scbase-netframework:${WINVERSION}
 COPY ./application/xconnect.processingengine/configuration /configuration
 COPY ./resources/xconnect/Website/App_Data/jobs/continuous/ProcessingEngine /app
 WORKDIR /configuration

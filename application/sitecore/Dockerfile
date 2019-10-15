@@ -1,6 +1,6 @@
 ARG WINVERSION
 ARG SCVERSION
-FROM scbase-aspnet:${WINVERSION}-${SCVERSION}
+FROM scbase-aspnet:${WINVERSION}
 COPY ./application/sitecore/configuration /configuration
 COPY ./resources/sitecore/Website /inetpub/wwwroot
 WORKDIR /configuration

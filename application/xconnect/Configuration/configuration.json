@@ -1,78 +1,77 @@
 {
-	"configuration": 
-	[
-		{
-			"path": "App_Config/ConnectionStrings.config",
-			"mappings":
-			[
-				{
-					"xpath": "connectionStrings/add[@name='messaging']",
-					"property": "connectionString",
-					"value": "$env:SC_MESSAGING_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='processing.engine.storage']",
-					"property": "connectionString",
-					"value": "$env:SC_PROC_STORAGE_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='reporting']",
-					"property": "connectionString",
-					"value": "$env:SC_REPORTING_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='xdb.marketingautomation']",
-					"property": "connectionString",
-					"value": "$env:SC_MARKETINGAUTOMATION_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='xdb.processing.pools']",
-					"property": "connectionString",
-					"value": "$env:SC_PROC_POOLS_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='xdb.referencedata']",
-					"property": "connectionString",
-					"value": "$env:SC_REFERENCEDATA_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='collection']",
-					"property": "connectionString",
-					"value": "$env:SC_SHARDMAPMANAGER_CONN_STRING"
-				},
-				{
-					"xpath": "connectionStrings/add[@name='solrCore']",
-					"property": "connectionString",
-					"value": "$env:SOLR_XDB_CORE_URL"
-				}
-			]
-		},
-		{
-			"path": "App_Config/AppSettings.config",
-			"mappings":[
-				{
-					"xpath": "appSettings/add[@key='AllowInvalidClientCertificates']",
-					"property": "value",
-					"value": "true"
-				},
-				{
-					"xpath": "appSettings/add[@key='validateCertificateThumbprint']",
-					"property": "value",
-					"value": "$env:XC_CERT_THUMBPRINT"
-				}
-			]
-		}
+  "configuration": [
+    {
+      "path": "App_Config/ConnectionStrings.config",
+      "mappings": [
+        {
+          "xpath": "connectionStrings/add[@name='messaging']",
+          "property": "connectionString",
+          "value": "$env:SC_MESSAGING_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='processing.engine.storage']",
+          "property": "connectionString",
+          "value": "$env:SC_PROC_STORAGE_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='reporting']",
+          "property": "connectionString",
+          "value": "$env:SC_REPORTING_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='xdb.marketingautomation']",
+          "property": "connectionString",
+          "value": "$env:SC_MARKETINGAUTOMATION_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='xdb.processing.pools']",
+          "property": "connectionString",
+          "value": "$env:SC_PROC_POOLS_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='xdb.referencedata']",
+          "property": "connectionString",
+          "value": "$env:SC_REFERENCEDATA_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='collection']",
+          "property": "connectionString",
+          "value": "$env:SC_SHARDMAPMANAGER_CONN_STRING"
+        },
+        {
+          "xpath": "connectionStrings/add[@name='solrCore']",
+          "property": "connectionString",
+          "value": "$env:SOLR_XDB_CORE_URL"
+        }
+      ]
+    },
+    {
+      "path": "App_Config/AppSettings.config",
+      "mappings": [
+        {
+          "xpath": "appSettings/add[@key='AllowInvalidClientCertificates']",
+          "property": "value",
+          "value": "true"
+        },
+        {
+          "xpath": "appSettings/add[@key='validateCertificateThumbprint']",
+          "property": "value",
+          "value": "$env:XC_CERT_THUMBPRINT"
+        }
+      ]
+    }
   ],
-  "certificates":
-  [
+  "certificates": [
     {
       "path": "/certificates/root.cer",
-      "store": "cert:/localmachine/root"
+      "store": "cert:/localmachine/root",
+      "user": "User Manager\\ContainerAdministrator"
     },
     {
       "path": "/certificates/cert.pfx",
       "secret": "secret",
-      "store": "cert:/localmachine/my"
+      "store": "cert:/localmachine/my",
+      "user": "User Manager\\ContainerAdministrator"
     }
   ]
 }

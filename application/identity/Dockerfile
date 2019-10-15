@@ -1,6 +1,6 @@
 ARG WINVERSION
 ARG SCVERSION
-FROM scbase-netcore:${WINVERSION}-${SCVERSION}
+FROM scbase-netcore:${WINVERSION}
 COPY ./application/identity/configuration /configuration
 COPY ./resources/identity/Website /app
 COPY ./resources/license.xml /app/sitecoreruntime/license.xml
