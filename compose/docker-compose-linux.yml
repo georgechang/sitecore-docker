@@ -17,4 +17,3 @@ services:
       - SA_PASSWORD=pass@word1
     volumes:
       - C:\docker\sql:/var/opt/mssql
-

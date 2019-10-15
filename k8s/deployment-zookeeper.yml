@@ -13,11 +13,13 @@ spec:
         app: zookeeper
     spec:
       containers:
-      - name: zookeeper
-        image: zookeeper:3.4
-        resources:
-          limits:
-            memory: 128Mi
-            cpu: 500m
-        ports:
-        - containerPort: 2181
+        - name: zookeeper
+          image: zookeeper:3.4
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 200m
+          ports:
+            - containerPort: 2181
+      nodeSelector:
+        kubernetes.io/os: linux

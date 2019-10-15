@@ -7,7 +7,7 @@ function Sync-Configuration {
 	$json = Get-Content $Path | ConvertFrom-Json
 	foreach ($config in $json.configuration) {
 		$path = Join-Path $AppPath -ChildPath $config.path | Resolve-Path
-		$config.mappings | % { Update-ConfigurationFile -Path $path -XPath $_.xpath -Property $_.property -Value $ExecutionContext.InvokeCommand.ExpandString($_.value)  }
+		$config.mappings | % { Update-ConfigurationFile -Path $path -XPath $_.xpath -Property $_.property -Value $ExecutionContext.InvokeCommand.ExpandString($_.value) }
 	}
 
 	foreach ($certificate in $json.certificates) {
@@ -15,7 +15,7 @@ function Sync-Configuration {
 		if ([System.IO.Path]::GetExtension($path) -eq ".pfx") {
 			$secret = ConvertTo-SecureString -String $certificate.secret -AsPlainText -Force
 			$cert = Import-PfxCertificate -FilePath $path -CertStoreLocation $certificate.store -Password $secret
-			Add-CertificatePermission -Certificate $cert -User (New-Object System.Security.Principal.NTAccount("IIS APPPOOL\DefaultAppPool"))
+			Add-CertificatePermission -Certificate $cert -User (New-Object System.Security.Principal.NTAccount($certificate.user))
 		}
 		else {
 			Import-Certificate -FilePath $path -CertStoreLocation $certificate.store | Out-Null
@@ -32,7 +32,7 @@ function Update-ConfigurationFile {
 
 	[xml]$XmlDocument = Get-Content -Path $Path
 	$Target = $XmlDocument.SelectSingleNode($XPath)
-	if  ($Value -eq "$$DELETE$$") {
+	if ($Value -eq "$$DELETE$$") {
 		$Target.ParentNode.RemoveChild($Target)
 	}
 	else {

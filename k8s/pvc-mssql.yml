@@ -5,8 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  volumeMode: Filesystem
   resources:
     requests:
       storage: 5Gi
-  storageClassName: standard
+  storageClassName: default

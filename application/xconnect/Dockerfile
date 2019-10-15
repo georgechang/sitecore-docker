@@ -1,6 +1,6 @@
 ARG WINVERSION
 ARG SCVERSION
-FROM scbase-aspnet:${WINVERSION}-${SCVERSION}
+FROM scbase-aspnet:${WINVERSION}
 COPY ./application/xconnect/configuration /configuration
 COPY ./resources/xconnect/Website /inetpub/wwwroot
 WORKDIR /configuration
