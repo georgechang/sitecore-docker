@@ -12,5 +12,5 @@ RUN Enable-LocalUser Administrator; \
     Set-LocalUser Administrator -Password (New-Object SecureString)
 USER ContainerAdministrator
 RUN icacls 'C:\inetpub\wwwroot' /grant 'IIS_IUSRS:(OI)(CI)F' /T
-COPY /base/common/configuration /configuration
+COPY /base/common/utilities /utilities
 ENTRYPOINT ["powershell"]

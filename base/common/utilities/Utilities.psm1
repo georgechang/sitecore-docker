@@ -32,12 +32,7 @@ function Update-ConfigurationFile {
 
 	[xml]$XmlDocument = Get-Content -Path $Path
 	$Target = $XmlDocument.SelectSingleNode($XPath)
-	if ($Value -eq "$$DELETE$$") {
-		$Target.ParentNode.RemoveChild($Target)
-	}
-	else {
-		$Target.($Property) = $Value
-	}
+	$Target.($Property) = $Value
 	$XmlDocument.Save($Path)
 }
 

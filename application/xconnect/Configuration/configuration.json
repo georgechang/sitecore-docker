@@ -59,6 +59,31 @@
           "value": "$env:XC_CERT_THUMBPRINT"
         }
       ]
+    },
+    {
+      "path": "App_Data/Config/Sitecore/CollectionSearch/sc.Xdb.Collection.IndexReader.SOLR.xml",
+      "mappings": [
+        {
+          "xpath": "Settings/Sitecore/XConnect/CollectionSearch/Services/Solr.SolrReaderSettings/Options/RequireHttps",
+          "property": "#text",
+          "value": "$env:SOLR_REQUIRE_HTTPS"
+        }
+      ]
+    },
+    {
+      "path": "App_Data/Config/Sitecore/SearchIndexer/sc.Xdb.Collection.IndexWriter.SOLR.xml",
+      "mappings": [
+        {
+          "xpath": "Settings/Sitecore/XConnect/SearchIndexer/Services/Solr.SolrReaderSettings/Options/RequireHttps",
+          "property": "#text",
+          "value": "$env:SOLR_REQUIRE_HTTPS"
+        },
+        {
+          "xpath": "Settings/Sitecore/XConnect/SearchIndexer/Services/Solr.SolrWriterSettings/Options/RequireHttps",
+          "property": "#text",
+          "value": "$env:SOLR_REQUIRE_HTTPS"
+        }
+      ]
     }
   ],
   "certificates": [

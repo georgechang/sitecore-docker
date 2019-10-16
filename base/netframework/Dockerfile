@@ -8,5 +8,5 @@ RUN Enable-LocalUser Administrator; \
     SecEdit.exe /configure /db C:\Windows\Security\Local.sdb /cfg secpol.cfg /areas SECURITYPOLICY; \
     Remove-Item secpol.cfg; \
     Set-LocalUser Administrator -Password (New-Object SecureString)
-COPY /base/common/configuration /configuration
+COPY /base/common/utilities /utilities
 ENTRYPOINT ["powershell"]

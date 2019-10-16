@@ -23,9 +23,10 @@ services:
   #     - C:/docker/license:C:/license
   xconnect:
     image: george.azurecr.io/xconnect:9.2-1903
-    # depends_on:
-    #   - xconnect-indexworker
-    #   - xconnect-processingengine
+    depends_on:
+      - xconnect-indexworker
+      - xconnect-processingengine
+      - xconnect-maengine
     ports:
       - "4444:80"
     env_file:
@@ -34,28 +35,26 @@ services:
       - C:/docker/xconnect/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/xconnect/certificates:C:/certificates
       - C:/docker/license:C:/license
-  # xconnect-indexworker:
-  #   image: george.azurecr.io/xconnect.indexworker:9.2-1903
-  #   env_file:
-  #     - variables.env
-  #   volumes:
-  #     - C:/docker/xconnect.indexworker/logs:C:/app/App_Data/logs
-  #     - C:/docker/license:C:/license
+  xconnect-indexworker:
+    image: george.azurecr.io/xconnect.indexworker:9.2-1903
+    env_file:
+      - variables.env
+    volumes:
+      - C:/docker/xconnect.indexworker/logs:C:/app/App_Data/logs
+      - C:/docker/license:C:/license
   xconnect-maengine:
     image: george.azurecr.io/xconnect.maengine:9.2-1903
-    depends_on:
-      - xconnect
     env_file:
       - variables.env
     volumes:
       - C:/docker/xconnect.maengine/logs:C:/app/App_Data/logs
       - C:/docker/xconnect.maengine/certificates:C:/certificates
       - C:/docker/license:C:/license
-  # xconnect-processingengine:
-  #   image: george.azurecr.io/xconnect.processingengine:9.2-1903
-  #   env_file:
-  #     - variables.env
-  #   volumes:
-  #     - C:/docker/xconnect.processingengine/logs:C:/app/App_Data/logs
-  #     - C:/docker/xconnect.processingengine/certificates:C:/certificates
-  #     - C:/docker/license:C:/license
+  xconnect-processingengine:
+    image: george.azurecr.io/xconnect.processingengine:9.2-1903
+    env_file:
+      - variables.env
+    volumes:
+      - C:/docker/xconnect.processingengine/logs:C:/app/App_Data/logs
+      - C:/docker/xconnect.processingengine/certificates:C:/certificates
+      - C:/docker/license:C:/license

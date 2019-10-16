@@ -1,0 +1,2 @@
+Add-LocalGroupMember -Group "Performance Monitor Users" -Member "User Manager\ContainerAdministrator", "IIS APPPOOL\DefaultAppPool" -ErrorAction SilentlyContinue
+Add-LocalGroupMember -Group "Performance Log Users" -Member "User Manager\ContainerAdministrator", "IIS APPPOOL\DefaultAppPool" -ErrorAction SilentlyContinue

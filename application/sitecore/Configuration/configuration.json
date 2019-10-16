@@ -241,7 +241,7 @@
         {
           "xpath": "configuration/sitecore/contentSearch/configuration/indexes/index/param[@desc='core']",
           "property": "#text",
-          "value": "$($env:SC_SOLR_PREFIX)_marketing_definitions_master"
+          "value": "$($env:SC_SOLR_PREFIX)_marketingdefinitions_master"
         }
       ]
     },
@@ -251,7 +251,7 @@
         {
           "xpath": "configuration/sitecore/contentSearch/configuration/indexes/index/param[@desc='core']",
           "property": "#text",
-          "value": "$($env:SC_SOLR_PREFIX)_marketing_definitions_web"
+          "value": "$($env:SC_SOLR_PREFIX)_marketingdefinitions_web"
         }
       ]
     },
