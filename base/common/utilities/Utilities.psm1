@@ -46,7 +46,7 @@ function Add-CertificatePermission {
 	$keyPath = "$($env:ALLUSERSPROFILE)\Microsoft\Crypto\Keys\$($rsa.key.UniqueName)"
 	$acl = Get-Acl $keyPath
 
-	$acr = New-Object System.Security.AccessControl.FileSystemAccessRule($User, 'Read', 'None', 'None', 'Allow')
+	$acr = New-Object System.Security.AccessControl.FileSystemAccessRule($User, 'Read', 'Allow')
 	$acl.AddAccessRule($acr)
 	Set-Acl -Path $keyPath -AclObject $acl
 }

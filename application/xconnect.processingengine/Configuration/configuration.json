@@ -6,12 +6,12 @@
         {
           "xpath": "connectionStrings/add[@name='processing.engine.storage']",
           "property": "connectionString",
-          "value": "$env:SC_PROC_STORAGE_CONN_STRING"
+          "value": "$env:SC_PROCENG_STORAGE_CONN_STRING"
         },
         {
           "xpath": "connectionStrings/add[@name='processing.engine.tasks']",
           "property": "connectionString",
-          "value": "$env:SC_PROC_TASKS_CONN_STRING"
+          "value": "$env:SC_PROCENG_TASKS_CONN_STRING"
         },
         {
           "xpath": "connectionStrings/add[@name='processing.webapi.blob']",
@@ -78,7 +78,8 @@
   ],
   "certificates": [
     {
-      "path": "/certificates/root.cer",
+      "path": "/certificates/cert.pfx",
+      "secret": "secret",
       "store": "cert:/localmachine/root",
       "user": "Administrator"
     },

@@ -43,7 +43,8 @@
   ],
   "certificates": [
     {
-      "path": "/certificates/root.cer",
+      "path": "/certificates/cert.pfx",
+      "secret": "secret",
       "store": "cert:/localmachine/root",
       "user": "Administrator"
     },

@@ -88,15 +88,16 @@
   ],
   "certificates": [
     {
-      "path": "/certificates/root.cer",
-      "store": "cert:/localmachine/root",
-      "user": "User Manager\\ContainerAdministrator"
+      "path": "/certificates/cert.pfx",
+      "secret": "secret",
+      "store": "cert:/localmachine/my",
+      "user": "IIS APPPOOL\\DefaultAppPool"
     },
     {
       "path": "/certificates/cert.pfx",
       "secret": "secret",
-      "store": "cert:/localmachine/my",
-      "user": "User Manager\\ContainerAdministrator"
+      "store": "cert:/localmachine/root",
+      "user": "IIS APPPOOL\\DefaultAppPool"
     }
   ]
 }
