@@ -1,17 +1,22 @@
 version: "3.7"
 services:
+  solr:
+    image: solr:7.5.0-1903
+    volumes:
+      - C:/docker/solr:C:/solr/server/solr/mydata
   sitecore:
     image: george.azurecr.io/sitecore:9.2-1903
     depends_on:
       #- identity
       - xconnect
+      - solr
     ports:
       - "2222:80"
     env_file:
       - variables.env
     volumes:
       - C:/docker/sitecore/logs:C:/inetpub/wwwroot/App_Data/logs
-      - C:/docker/sitecore/certificates:C:/certificates
+      - C:/docker/certificates:C:/certificates
       - C:/docker/license:C:/license
   # identity:
   #   image: identity:9.2-1903
@@ -33,10 +38,12 @@ services:
       - variables.env
     volumes:
       - C:/docker/xconnect/logs:C:/inetpub/wwwroot/App_Data/logs
-      - C:/docker/xconnect/certificates:C:/certificates
+      - C:/docker/certificates:C:/certificates
       - C:/docker/license:C:/license
   xconnect-indexworker:
     image: george.azurecr.io/xconnect.indexworker:9.2-1903
+    depends_on:
+      - solr
     env_file:
       - variables.env
     volumes:
@@ -48,7 +55,7 @@ services:
       - variables.env
     volumes:
       - C:/docker/xconnect.maengine/logs:C:/app/App_Data/logs
-      - C:/docker/xconnect.maengine/certificates:C:/certificates
+      - C:/docker/certificates:C:/certificates
       - C:/docker/license:C:/license
   xconnect-processingengine:
     image: george.azurecr.io/xconnect.processingengine:9.2-1903
@@ -56,5 +63,5 @@ services:
       - variables.env
     volumes:
       - C:/docker/xconnect.processingengine/logs:C:/app/App_Data/logs
-      - C:/docker/xconnect.processingengine/certificates:C:/certificates
+      - C:/docker/certificates:C:/certificates
       - C:/docker/license:C:/license
