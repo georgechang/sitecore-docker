@@ -1,14 +1,13 @@
 ARG WINVERSION
 ARG SOLRVERSION
 ARG SOLR_DOWNLOAD_SERVER
-FROM mcr.microsoft.com/windows/servercore:1903
+FROM mcr.microsoft.com/powershell:nanoserver-${WINVERSION}
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
+USER ContainerAdministrator
 ENV JAVA_HOME C:\\openjdk
-RUN $newPath = ('{0}\bin;{1}' -f $env:JAVA_HOME, $env:PATH); \
-	Write-Host ('Updating PATH: {0}' -f $newPath); \
-	setx /M PATH $newPath
+ENV PATH=$PATH;C:\\openjdk\\bin
 
 ENV JAVA_VERSION 8u232
 ENV JAVA_BASE_URL https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jre_
@@ -28,11 +27,9 @@ RUN Write-Host ('Installing JRE {0}...' -f $env:JAVA_VERSION); \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile 'openjdk.zip'; \
-	\
 	Write-Host 'Expanding ...'; \
 	Expand-Archive openjdk.zip -DestinationPath C:\temp; \
 	Move-Item -Path C:\temp\* -Destination $env:JAVA_HOME; \
-
 	Write-Host 'Verifying install ...'; \
 	Write-Host '  java -version'; java -version;
 
@@ -41,16 +38,15 @@ RUN Write-Host ('Installing Solr {0}...' -f $env:SOLR_VERSION); \
 	Write-Host ('Downloading {0} ...' -f $url); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $url -OutFile 'solr.zip'; \
-	\
 	Write-Host 'Expanding ...'; \
 	Expand-Archive solr.zip -DestinationPath C:\temp; \
 	Move-Item -Path C:\temp\* -Destination C:\solr;
 
 RUN Write-Host 'Cleaning up...'; \
-	Remove-Item /temp -ErrorAction SilentlyContinue; \
+	Remove-Item /temp -Force -ErrorAction SilentlyContinue; \
 	Remove-Item openjdk.zip -Force -ErrorAction SilentlyContinue; \
 	Remove-Item solr.zip -Force -ErrorAction SilentlyContinue;
 
 WORKDIR /solr/bin
 EXPOSE 8983
-ENTRYPOINT [ "solr.cmd", "start", "-f", "-t", "mydata", "-p", "8983" ]
+ENTRYPOINT [ "solr.cmd", "start", "-f", "-t", "./mydata", "-p", "8983" ]
