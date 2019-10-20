@@ -1,67 +1,134 @@
 version: "3.7"
 services:
+  mssql:
+    image: ${REGISTRY}/mssql:2017-${WINVERSION}
+    ports:
+      - "11433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_SA_PASSWORD}
+      - ATTACH_DBS=${SQL_DBS}
+    volumes:
+      - C:/docker/mssql/data:C:/data
+
   solr:
-    image: solr:7.5.0-1903
+    image: solr:${SOLRVERSION}-${WINVERSION}
     volumes:
       - C:/docker/solr:C:/solr/server/solr/mydata
+
   sitecore:
-    image: george.azurecr.io/sitecore:9.2-1903
+    image: ${REGISTRY}/sitecore:${SCVERSION}-${WINVERSION}
     depends_on:
+      - mssql
+      - solr
       #- identity
       - xconnect
-      - solr
     ports:
       - "2222:80"
-    env_file:
-      - variables.env
+    environment:
+      - SC_CONNSTRING_CORE=${SC_CONNSTRING_CORE}
+      - SC_CONNSTRING_SECURITY=${SC_CONNSTRING_SECURITY}
+      - SC_CONNSTRING_MASTER=${SC_CONNSTRING_MASTER}
+      - SC_CONNSTRING_WEB=${SC_CONNSTRING_WEB}
+      - SC_CONNSTRING_MESSAGING=${SC_CONNSTRING_MESSAGING}
+      - SC_CONNSTRING_MARKETINGAUTOMATION=${SC_CONNSTRING_MARKETINGAUTOMATION}
+      - SC_CONNSTRING_REFERENCEDATA=${SC_CONNSTRING_REFERENCEDATA}
+      - SC_CONNSTRING_PROC_POOLS=${SC_CONNSTRING_PROC_POOLS}
+      - SC_CONNSTRING_PROC_TASKS=${SC_CONNSTRING_PROC_TASKS}
+      - SC_CONNSTRING_FORMS=${SC_CONNSTRING_FORMS}
+      - SC_CONNSTRING_REPORTING=${SC_CONNSTRING_REPORTING}
+      - SC_PKGMGMT_URL=${SC_PKGMGMT_URL}
+      - SC_DATAFOLDER=${SC_DATAFOLDER}
+      - SC_SOLR_PREFIX=${SC_SOLR_PREFIX}
+      - SC_DEBUG=${SC_DEBUG}
+      - SC_CUSTOMERRORS=${SC_CUSTOMERRORS}
+      - EXM_CONNSTRING_MASTER=${EXM_CONNSTRING_MASTER}
+      - EXM_CRYPTO_KEY=${EXM_CRYPTO_KEY}
+      - EXM_AUTH_KEY=${EXM_AUTH_KEY}
+      - XC_URL=${XC_URL}
+      - XC_CONNSTRING_CERT=${XC_CONNSTRING_CERT}
+      - SOLR_URL=${SOLR_URL}
+      - SI_URL=${SI_URL}
+      - SI_CLIENT_SECRET=${SI_CLIENT_SECRET}
     volumes:
-      - C:/docker/sitecore/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/certificates:C:/certificates
-      - C:/docker/license:C:/license
+      - ${PATH_LICENSE}:C:/license
+
   # identity:
-  #   image: identity:9.2-1903
+  #   image: identity:${SCVERSION}-${WINVERSION}
   #   ports:
   #     - "3333:80"
   #   env_file:
   #     - variables.env
   #   volumes:
-  #     - C:/docker/license:C:/license
+  #     - ${PATH_LICENSE}:C:/license
+
   xconnect:
-    image: george.azurecr.io/xconnect:9.2-1903
+    image: ${REGISTRY}/xconnect:${SCVERSION}-${WINVERSION}
     depends_on:
-      - xconnect-indexworker
-      - xconnect-processingengine
-      - xconnect-maengine
+      - mssql
+      - solr
     ports:
       - "4444:80"
-    env_file:
-      - variables.env
+    environment:
+      - SC_CONNSTRING_MESSAGING=${SC_CONNSTRING_MESSAGING}
+      - SC_CONNSTRING_REPORTING=${SC_CONNSTRING_REPORTING}
+      - SC_CONNSTRING_MARKETINGAUTOMATION=${SC_CONNSTRING_MARKETINGAUTOMATION}
+      - SC_CONNSTRING_REFERENCEDATA=${SC_CONNSTRING_REFERENCEDATA}
+      - SC_CONNSTRING_PROC_POOLS=${SC_CONNSTRING_PROC_POOLS}
+      - SC_CONNSTRING_PROCENG_STORAGE=${SC_CONNSTRING_PROCENG_STORAGE}
+      - SC_CONNSTRING_SHARDMAPMANAGER=${SC_CONNSTRING_SHARDMAPMANAGER}
+      - XC_CERT_THUMBPRINT=${XC_CERT_THUMBPRINT}
+      - XC_ALLOW_INVALID_CERT=${XC_ALLOW_INVALID_CERT}
+      - SOLR_REQUIRE_HTTPS=${SOLR_REQUIRE_HTTPS}
+      - SOLR_XDB_CORE_URL=${SOLR_XDB_CORE_URL}
     volumes:
-      - C:/docker/xconnect/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/certificates:C:/certificates
-      - C:/docker/license:C:/license
+      - ${PATH_LICENSE}:C:/license
+
   xconnect-indexworker:
-    image: george.azurecr.io/xconnect.indexworker:9.2-1903
+    image: ${REGISTRY}/xconnect.indexworker:${SCVERSION}-${WINVERSION}
     depends_on:
+      - mssql
       - solr
-    env_file:
-      - variables.env
+    environment:
+      - SC_CONNSTRING_SHARDMAPMANAGER=${SC_CONNSTRING_SHARDMAPMANAGER}
+      - SOLR_XDB_CORE_URL=${SOLR_XDB_CORE_URL}
+      - SOLR_REQUIRE_HTTPS=${SOLR_REQUIRE_HTTPS}
     volumes:
-      - C:/docker/xconnect.indexworker/logs:C:/app/App_Data/logs
-      - C:/docker/license:C:/license
+      - ${PATH_LICENSE}:C:/license
+
   xconnect-maengine:
-    image: george.azurecr.io/xconnect.maengine:9.2-1903
-    env_file:
-      - variables.env
+    image: ${REGISTRY}/xconnect.maengine:${SCVERSION}-${WINVERSION}
+    depends_on:
+      - mssql
+      - solr
+      - xconnect
+    environment:
+      - SC_CONNSTRING_MESSAGING=${SC_CONNSTRING_MESSAGING}
+      - SC_CONNSTRING_MARKETINGAUTOMATION=${SC_CONNSTRING_MARKETINGAUTOMATION}
+      - SC_CONNSTRING_REFERENCEDATA=${SC_CONNSTRING_REFERENCEDATA}
+      - XC_URL=${XC_URL}
+      - XC_CONNSTRING_CERT=${XC_CONNSTRING_CERT}
+      - XC_ALLOW_INVALID_CERT=${XC_ALLOW_INVALID_CERT}
     volumes:
-      - C:/docker/xconnect.maengine/logs:C:/app/App_Data/logs
       - C:/docker/certificates:C:/certificates
-      - C:/docker/license:C:/license
+      - ${PATH_LICENSE}:C:/license
+
   xconnect-processingengine:
-    image: george.azurecr.io/xconnect.processingengine:9.2-1903
-    env_file:
-      - variables.env
+    image: ${REGISTRY}/xconnect.processingengine:${SCVERSION}-${WINVERSION}
+    depends_on:
+      - mssql
+      - solr
+      - xconnect
+    environment:
+      - SC_CONNSTRING_MESSAGING=${SC_CONNSTRING_MESSAGING}
+      - SC_CONNSTRING_REPORTING=${SC_CONNSTRING_REPORTING}
+      - SC_CONNSTRING_PROCENG_STORAGE=${SC_CONNSTRING_PROCENG_STORAGE}
+      - SC_CONNSTRING_PROCENG_TASKS=${SC_CONNSTRING_PROCENG_TASKS}
+      - XC_URL=${XC_URL}
+      - XC_CERT_THUMBPRINT=${XC_CERT_THUMBPRINT}
+      - XC_ALLOW_INVALID_CERT=${XC_ALLOW_INVALID_CERT}
     volumes:
-      - C:/docker/xconnect.processingengine/logs:C:/app/App_Data/logs
       - C:/docker/certificates:C:/certificates
-      - C:/docker/license:C:/license
+      - ${PATH_LICENSE}:C:/license

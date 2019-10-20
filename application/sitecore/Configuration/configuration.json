@@ -6,62 +6,62 @@
         {
           "xpath": "connectionStrings/add[@name='core']",
           "property": "connectionString",
-          "value": "$env:SC_CORE_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_CORE"
         },
         {
           "xpath": "connectionStrings/add[@name='security']",
           "property": "connectionString",
-          "value": "$env:SC_SECURITY_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_SECURITY"
         },
         {
           "xpath": "connectionStrings/add[@name='master']",
           "property": "connectionString",
-          "value": "$env:SC_MASTER_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_MASTER"
         },
         {
           "xpath": "connectionStrings/add[@name='web']",
           "property": "connectionString",
-          "value": "$env:SC_WEB_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_WEB"
         },
         {
           "xpath": "connectionStrings/add[@name='messaging']",
           "property": "connectionString",
-          "value": "$env:SC_MESSAGING_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_MESSAGING"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.marketingautomation']",
           "property": "connectionString",
-          "value": "$env:SC_MARKETINGAUTOMATION_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_MARKETINGAUTOMATION"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.processing.pools']",
           "property": "connectionString",
-          "value": "$env:SC_PROC_POOLS_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_PROC_POOLS"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.referencedata']",
           "property": "connectionString",
-          "value": "$env:SC_REFERENCEDATA_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_REFERENCEDATA"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.processing.tasks']",
           "property": "connectionString",
-          "value": "$env:SC_PROC_TASKS_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_PROC_TASKS"
         },
         {
           "xpath": "connectionStrings/add[@name='experienceforms']",
           "property": "connectionString",
-          "value": "$env:SC_FORMS_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_FORMS"
         },
         {
           "xpath": "connectionStrings/add[@name='exm.master']",
           "property": "connectionString",
-          "value": "$env:EXM_MASTER_CONN_STRING"
+          "value": "$env:EXM_CONNSTRING_MASTER"
         },
         {
           "xpath": "connectionStrings/add[@name='reporting']",
           "property": "connectionString",
-          "value": "$env:SC_REPORTING_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_REPORTING"
         },
         {
           "xpath": "connectionStrings/add[@name='sitecore.reporting.client']",
@@ -71,7 +71,7 @@
         {
           "xpath": "connectionStrings/add[@name='sitecore.reporting.client.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CONNSTRING_CERT"
         },
         {
           "xpath": "connectionStrings/add[@name='solr.search']",
@@ -91,7 +91,7 @@
         {
           "xpath": "connectionStrings/add[@name='xconnect.collection.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CONNSTRING_CERT"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.marketingautomation.operations.client']",
@@ -101,7 +101,7 @@
         {
           "xpath": "connectionStrings/add[@name='xdb.marketingautomation.operations.client.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CONNSTRING_CERT"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.marketingautomation.reporting.client']",
@@ -111,7 +111,7 @@
         {
           "xpath": "connectionStrings/add[@name='xdb.marketingautomation.reporting.client.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CONNSTRING_CERT"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.referencedata.client']",
@@ -121,22 +121,22 @@
         {
           "xpath": "connectionStrings/add[@name='xdb.referencedata.client.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CONNSTRING_CERT"
         },
         {
           "xpath": "connectionStrings/add[@name='PackageManagementServiceUrl']",
           "property": "connectionString",
-          "value": "$env:SC_PKG_MGMT_URL"
+          "value": "$env:SC_PKGMGMT_URL"
         },
         {
           "xpath": "connectionStrings/add[@name='EXM.CryptographicKey']",
           "property": "connectionString",
-          "value": "$env:SC_EXM_CRYPTO_KEY"
+          "value": "$env:EXM_CRYPTO_KEY"
         },
         {
           "xpath": "connectionStrings/add[@name='EXM.AuthenticationKey']",
           "property": "connectionString",
-          "value": "$env:SC_EXM_AUTH_KEY"
+          "value": "$env:EXM_AUTH_KEY"
         }
       ]
     },
@@ -146,7 +146,7 @@
         {
           "xpath": "sitecore/sc.variable[@name='dataFolder']",
           "property": "value",
-          "value": "$env:SC_DATA_FOLDER"
+          "value": "$env:SC_DATAFOLDER"
         }
       ]
     },

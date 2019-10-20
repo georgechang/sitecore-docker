@@ -6,12 +6,12 @@
         {
           "xpath": "connectionStrings/add[@name='processing.engine.storage']",
           "property": "connectionString",
-          "value": "$env:SC_PROCENG_STORAGE_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_PROCENG_STORAGE"
         },
         {
           "xpath": "connectionStrings/add[@name='processing.engine.tasks']",
           "property": "connectionString",
-          "value": "$env:SC_PROCENG_TASKS_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_PROCENG_TASKS"
         },
         {
           "xpath": "connectionStrings/add[@name='processing.webapi.blob']",
@@ -31,7 +31,7 @@
         {
           "xpath": "connectionStrings/add[@name='xconnect.collection.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CERT_THUMBPRINT"
         },
         {
           "xpath": "connectionStrings/add[@name='xconnect.configuration']",
@@ -41,7 +41,7 @@
         {
           "xpath": "connectionStrings/add[@name='xconnect.configuration.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CERT_THUMBPRINT"
         },
         {
           "xpath": "connectionStrings/add[@name='xconnect.search']",
@@ -51,17 +51,17 @@
         {
           "xpath": "connectionStrings/add[@name='xconnect.search.certificate']",
           "property": "connectionString",
-          "value": "$env:XC_CERT_CONN_STRING"
+          "value": "$env:XC_CERT_THUMBPRINT"
         },
         {
           "xpath": "connectionStrings/add[@name='messaging']",
           "property": "connectionString",
-          "value": "$env:SC_MESSAGING_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_MESSAGING"
         },
         {
           "xpath": "connectionStrings/add[@name='reporting']",
           "property": "connectionString",
-          "value": "$env:SC_REPORTING_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_REPORTING"
         }
       ]
     },
@@ -71,7 +71,7 @@
         {
           "xpath": "appSettings/add[@key='AllowInvalidClientCertificates']",
           "property": "value",
-          "value": "true"
+          "value": "$env:XC_ALLOW_INVALID_CERT"
         }
       ]
     }

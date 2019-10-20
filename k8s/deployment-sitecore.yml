@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sitecore
-          image: george.azurecr.io/sitecore:1809-9.2
+          image: george.azurecr.io/sitecore:9.2-1903
           envFrom:
             - configMapRef:
                 name: sitecore
@@ -24,5 +24,3 @@ spec:
               cpu: 500m
           ports:
             - containerPort: 80
-      nodeSelector:
-        kubernetes.io/os: windows

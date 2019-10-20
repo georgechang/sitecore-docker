@@ -6,37 +6,37 @@
         {
           "xpath": "connectionStrings/add[@name='messaging']",
           "property": "connectionString",
-          "value": "$env:SC_MESSAGING_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_MESSAGING"
         },
         {
           "xpath": "connectionStrings/add[@name='processing.engine.storage']",
           "property": "connectionString",
-          "value": "$env:SC_PROC_STORAGE_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_PROCENG_STORAGE"
         },
         {
           "xpath": "connectionStrings/add[@name='reporting']",
           "property": "connectionString",
-          "value": "$env:SC_REPORTING_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_REPORTING"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.marketingautomation']",
           "property": "connectionString",
-          "value": "$env:SC_MARKETINGAUTOMATION_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_MARKETINGAUTOMATION"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.processing.pools']",
           "property": "connectionString",
-          "value": "$env:SC_PROC_POOLS_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_PROC_POOLS"
         },
         {
           "xpath": "connectionStrings/add[@name='xdb.referencedata']",
           "property": "connectionString",
-          "value": "$env:SC_REFERENCEDATA_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_REFERENCEDATA"
         },
         {
           "xpath": "connectionStrings/add[@name='collection']",
           "property": "connectionString",
-          "value": "$env:SC_SHARDMAPMANAGER_CONN_STRING"
+          "value": "$env:SC_CONNSTRING_SHARDMAPMANAGER"
         },
         {
           "xpath": "connectionStrings/add[@name='solrCore']",
@@ -51,7 +51,7 @@
         {
           "xpath": "appSettings/add[@key='AllowInvalidClientCertificates']",
           "property": "value",
-          "value": "true"
+          "value": "$env:XC_ALLOW_INVALID_CERT"
         },
         {
           "xpath": "appSettings/add[@key='validateCertificateThumbprint']",

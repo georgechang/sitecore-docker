@@ -14,15 +14,10 @@ spec:
     spec:
       containers:
         - name: solr
-          image: solr:7
-          env:
-            - name: ZK_HOST
-              value: "zookeeper.default.svc.cluster.local:2181"
+          image: george.azurecr.io/solr:7-1903
           resources:
             limits:
               memory: 512Mi
               cpu: 200m
           ports:
             - containerPort: 8983
-      nodeSelector:
-        kubernetes.io/os: linux

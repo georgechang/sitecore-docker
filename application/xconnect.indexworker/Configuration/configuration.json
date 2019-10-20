@@ -6,7 +6,7 @@
         {
           "xpath": "connectionStrings/add[@name='collection']",
           "property": "connectionString",
-          "value": "$env:SC_SHARDMAPMANAGER_CONN_STRING"
+          "value": "$env:SC_CONN_STRING_SHARDMAPMANAGER"
         },
         {
           "xpath": "connectionStrings/add[@name='solrCore']",
@@ -21,7 +21,7 @@
         {
           "xpath": "Settings/Sitecore/XConnect/CollectionSearch/Services/Solr.SolrReaderSettings/Options/RequireHttps",
           "property": "#text",
-          "value": "false"
+          "value": "$env:SOLR_REQUIRE_HTTPS"
         }
       ]
     },
@@ -31,12 +31,12 @@
         {
           "xpath": "Settings/Sitecore/XConnect/SearchIndexer/Services/Solr.SolrReaderSettings/Options/RequireHttps",
           "property": "#text",
-          "value": "false"
+          "value": "$env:SOLR_REQUIRE_HTTPS"
         },
         {
           "xpath": "Settings/Sitecore/XConnect/SearchIndexer/Services/Solr.SolrWriterSettings/Options/RequireHttps",
           "property": "#text",
-          "value": "false"
+          "value": "$env:SOLR_REQUIRE_HTTPS"
         }
       ]
     }
