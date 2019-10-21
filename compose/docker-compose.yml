@@ -1,9 +1,9 @@
 version: "3.7"
 services:
   mssql:
-    image: ${REGISTRY}/mssql:2017-${WINVERSION}
-    ports:
-      - "11433:1433"
+    image: ${REGISTRY}/mssql:2017-RTM-${WIN_VERSION}
+    # ports:
+    #   - "11433:1433"
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${SQL_SA_PASSWORD}
@@ -12,12 +12,12 @@ services:
       - C:/docker/mssql/data:C:/data
 
   solr:
-    image: solr:${SOLRVERSION}-${WINVERSION}
+    image: solr:${SOLR_VERSION}-${WIN_VERSION}
     volumes:
       - C:/docker/solr:C:/solr/server/solr/mydata
 
   sitecore:
-    image: ${REGISTRY}/sitecore:${SCVERSION}-${WINVERSION}
+    image: ${REGISTRY}/sitecore:${SC_VERSION}-${WIN_VERSION}
     depends_on:
       - mssql
       - solr
@@ -51,11 +51,12 @@ services:
       - SI_URL=${SI_URL}
       - SI_CLIENT_SECRET=${SI_CLIENT_SECRET}
     volumes:
+      - C:/docker/sitecore/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/certificates:C:/certificates
       - ${PATH_LICENSE}:C:/license
 
   # identity:
-  #   image: identity:${SCVERSION}-${WINVERSION}
+  #   image: identity:${SC_VERSION}-${WIN_VERSION}
   #   ports:
   #     - "3333:80"
   #   env_file:
@@ -64,12 +65,12 @@ services:
   #     - ${PATH_LICENSE}:C:/license
 
   xconnect:
-    image: ${REGISTRY}/xconnect:${SCVERSION}-${WINVERSION}
+    image: ${REGISTRY}/xconnect:${SC_VERSION}-${WIN_VERSION}
     depends_on:
       - mssql
       - solr
-    ports:
-      - "4444:80"
+    # ports:
+    #   - "4444:80"
     environment:
       - SC_CONNSTRING_MESSAGING=${SC_CONNSTRING_MESSAGING}
       - SC_CONNSTRING_REPORTING=${SC_CONNSTRING_REPORTING}
@@ -83,11 +84,12 @@ services:
       - SOLR_REQUIRE_HTTPS=${SOLR_REQUIRE_HTTPS}
       - SOLR_XDB_CORE_URL=${SOLR_XDB_CORE_URL}
     volumes:
+      - C:/docker/xconnect/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/certificates:C:/certificates
       - ${PATH_LICENSE}:C:/license
 
   xconnect-indexworker:
-    image: ${REGISTRY}/xconnect.indexworker:${SCVERSION}-${WINVERSION}
+    image: ${REGISTRY}/xconnect.indexworker:${SC_VERSION}-${WIN_VERSION}
     depends_on:
       - mssql
       - solr
@@ -99,7 +101,7 @@ services:
       - ${PATH_LICENSE}:C:/license
 
   xconnect-maengine:
-    image: ${REGISTRY}/xconnect.maengine:${SCVERSION}-${WINVERSION}
+    image: ${REGISTRY}/xconnect.maengine:${SC_VERSION}-${WIN_VERSION}
     depends_on:
       - mssql
       - solr
@@ -116,7 +118,7 @@ services:
       - ${PATH_LICENSE}:C:/license
 
   xconnect-processingengine:
-    image: ${REGISTRY}/xconnect.processingengine:${SCVERSION}-${WINVERSION}
+    image: ${REGISTRY}/xconnect.processingengine:${SC_VERSION}-${WIN_VERSION}
     depends_on:
       - mssql
       - solr

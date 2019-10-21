@@ -276,7 +276,7 @@
         {
           "xpath": "configuration/system.web/customErrors",
           "property": "mode",
-          "value": "$env:SC_CUSTOM_ERRORS"
+          "value": "$env:SC_CUSTOMERRORS"
         }
       ]
     }
