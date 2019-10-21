@@ -1,15 +1,16 @@
 param(
-	$winversion = "1903",
-	$scversion = "9.2",
-	$solrversion = "7.5.0",
-	$registry = "george.azurecr.io",
-	$scarchive = "Sitecore-9.2.0.zip",
-	$xcarchive = "xConnect-9.2.0.zip",
-	$siarchive = "Identity-3.0.0.zip",
 	[switch]$Dependencies = $false,
 	[switch]$Common = $false,
 	[switch]$Application = $false
 )
+
+$winversion = "1903"
+$scversion = "9.2"
+$solrversion = "7.5.0"
+$registry = "george.azurecr.io"
+$scarchive = "Sitecore-9.2.0.zip"
+$xcarchive = "xConnect-9.2.0.zip"
+$siarchive = "Identity-3.0.0.zip"
 
 $stopwatch = [system.diagnostics.stopwatch]::StartNew()
 

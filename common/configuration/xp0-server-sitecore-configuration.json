@@ -1,0 +1,118 @@
+{
+	"databases": [
+		{
+			"name": "Core",
+			"dacpac": "Sitecore.Core.dacpac",
+			"postscripts": [
+				{
+					"file": "CreateUser.Core.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$coreUserName",
+							"PlaceHolderForPassword": "$corePassword",
+							"PlaceholderForDB": "$($DatabasePrefix)Core"
+						}
+					}
+				},
+				{
+					"file": "SetSitecoreAdminPassword.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForPassword": "$adminPassword"
+						}
+					}
+				},
+				{
+					"file": "CreateUser.Security.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$securityUserName",
+							"PlaceHolderForPassword": "$securityPassword",
+							"PlaceholderForDB": "$($DatabasePrefix)Core"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Master",
+			"dacpac": "Sitecore.Master.dacpac",
+			"postscripts": [
+				{
+					"file": "CreateUser.Master.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$masterUserName",
+							"PlaceHolderForPassword": "$masterPassword",
+							"PlaceholderForDB": "$($DatabasePrefix)Master"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Web",
+			"dacpac": "Sitecore.Web.dacpac",
+			"postscripts": [
+				{
+					"file": "CreateUser.Web.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$webUserName",
+							"PlaceHolderForPassword": "$webPassword",
+							"PlaceholderForDB": "$($DatabasePrefix)Web"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "ExperienceForms",
+			"dacpac": "Sitecore.Experienceforms.dacpac",
+			"postscripts": [
+				{
+					"file": "CreateUser.ExperienceForms.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$experienceFormsUserName",
+							"PlaceHolderForPassword": "$experienceFormsPassword",
+							"PlaceholderForDB": "$($DatabasePrefix)ExperienceForms"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "EXM.Master",
+			"dacpac": "Sitecore.EXM.Master.dacpac",
+			"postscripts": [
+				{
+					"file": "CreateUser.ExmMaster.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$exmUserName",
+							"PlaceHolderForPassword": "$exmPassword",
+							"PlaceholderForDB": "$($DatabasePrefix)EXM.Master"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Processing.Tasks",
+			"dacpac": "Sitecore.Processing.Tasks.dacpac",
+			"postscripts": [
+				{
+					"file": "CreateUser.ProcessingTasks.sql",
+					"variables": {
+						"text": {
+							"PlaceHolderForUser": "$processingTasksUserName",
+							"PlaceHolderForPassword": "$processingTasksPassword",
+							"PlaceholderForDB": "$($DatabasePrefix)Processing.Tasks"
+						}
+					}
+				}
+			]
+		}
+	]
+}
