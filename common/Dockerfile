@@ -10,4 +10,3 @@ SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference
 RUN Expand-Archive ./packages/$env:SC_ARCHIVE -DestinationPath /resources/sitecore
 RUN Expand-Archive ./packages/$env:XC_ARCHIVE -DestinationPath /resources/xconnect
 RUN Expand-Archive ./packages/$env:SI_ARCHIVE -DestinationPath /resources/identity
-RUN Set-PSRepository -Name PSGallery -InstallationPolicy Trusted; Install-Module SqlServer; Install-Module mashups

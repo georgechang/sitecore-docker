@@ -1,8 +1,7 @@
-$dbPrefix = "sc_"
-$dbServer = "host.docker.internal,11433"
-
-$username = "sa"
-$password = "pass@word1"
+$DatabaseServer = $env:DB_SERVER
+$DatabasePrefix = $env:DB_PREFIX
+$DatabaseUserName = $env:DB_USERNAME
+$DatabasePassword = $env:DB_PASSWORD
 
 $xConnectVariables = @{
 	automationUserName       = "automationuser";
@@ -40,7 +39,7 @@ $sitecoreVariables.add("processingTasksPassword", $password)
 
 $sitecoreVariables.add("adminPassword", "b")
 
-Publish-SitecoreDatabases -Path ..\configuration\xp0-server-xdb-configuration.json -ResourcesPath ..\resources\xConnect -DatabaseServer $dbServer -DatabasePrefix $dbPrefix -DatabaseUserName $username -DatabasePassword $password -Variables $xConnectVariables
-Invoke-ShardDeploymentTool -Path ..\resources\xConnect\collectiondeployment -DatabaseServer $dbServer -DatabasePrefix $dbPrefix -DatabaseUserName $username -DatabasePassword $password -ShardCount 2
+Publish-SitecoreDatabases -Path ..\configuration\xp0-server-xdb-configuration.json -ResourcesPath ..\resources\xConnect -DatabaseServer $DatabaseServer -DatabasePrefix $DatabasePrefix -DatabaseUserName $DatabaseUserName -DatabasePassword $DatabasePassword -Variables $xConnectVariables
+Invoke-ShardDeploymentTool -Path ..\resources\xConnect\collectiondeployment -DatabaseServer $DatabaseServer -DatabasePrefix $DatabasePrefix -DatabaseUserName $DatabaseUserName -DatabasePassword $DatabasePassword -ShardCount 2
 
-Publish-SitecoreDatabases -Path ..\configuration\xp0-server-sitecore-configuration.json -ResourcesPath ..\resources\Sitecore -DatabaseServer $dbServer -DatabasePrefix $dbPrefix -DatabaseUserName $username -DatabasePassword $password -Variables $sitecoreVariables
+Publish-SitecoreDatabases -Path ..\configuration\xp0-server-sitecore-configuration.json -ResourcesPath ..\resources\Sitecore -DatabaseServer $DatabaseServer -DatabasePrefix $DatabasePrefix -DatabaseUserName $DatabaseUserName -DatabasePassword $DatabasePassword -Variables $sitecoreVariables

@@ -7,9 +7,9 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${SQL_SA_PASSWORD}
-      - ATTACH_DBS=${SQL_DBS}
-    volumes:
-      - C:/docker/mssql/data:C:/data
+    #  - ATTACH_DBS=${SQL_DBS}
+    #volumes:
+    #  - C:/docker/mssql/data:C:/data
 
   solr:
     image: solr:${SOLR_VERSION}-${WIN_VERSION}
