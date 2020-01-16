@@ -12,4 +12,4 @@ RUN Enable-LocalUser Administrator; \
 COPY --from=common ./utilities /utilities
 COPY --from=common ./resources/xconnect/Content/Website/App_Data/jobs/continuous/IndexWorker /app
 COPY ./configuration /configuration
-ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data", "-Expression", "/app/XConnectSearchIndexer.exe"]
+ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data", "-Expression", "/app/Sitecore.XConnectSearchIndexer.exe"]

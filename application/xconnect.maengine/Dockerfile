@@ -12,4 +12,4 @@ RUN Enable-LocalUser Administrator; \
 COPY --from=common ./utilities /utilities
 COPY --from=common ./resources/xconnect/Content/Website/App_Data/jobs/continuous/AutomationEngine /app
 COPY ./configuration /configuration
-ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data", "-Expression", "/app/maengine.exe"]
+ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data", "-Expression", "/app/Sitecore.MAEngine.exe"]
