@@ -1,4 +1,5 @@
 ARG WIN_VERSION
+ARG SC_VERSION
 FROM common:${WIN_VERSION} as common
 FROM mcr.microsoft.com/windows/nanoserver:sac2016 as tool
 FROM mcr.microsoft.com/powershell:nanoserver-${WIN_VERSION} as powershell
@@ -7,7 +8,7 @@ COPY --from=powershell ["/Program Files/PowerShell", "/Program Files/PowerShell"
 # COPY --from=tool /Windows/System32/certoc.exe /configuration/certoc.exe
 COPY --from=common /utilities /utilities
 COPY --from=common ./resources/identity/Content/Website /app
-COPY ./configuration /configuration
+COPY ./configuration/${SC_VERSION} /configuration
 USER ContainerAdministrator
 RUN setx /m PATH "%PATH%;C:\Program Files\PowerShell"
 ENTRYPOINT ["pwsh", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/sitecoreruntime", "-Expression", "dotnet /app/Sitecore.IdentityServer.Host.dll"]

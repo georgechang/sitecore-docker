@@ -1,4 +1,5 @@
 ARG WIN_VERSION
+ARG SC_VERSION
 FROM common:${WIN_VERSION} as common
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-${WIN_VERSION}
 USER ContainerAdministrator
@@ -18,5 +19,5 @@ RUN Invoke-WebRequest https://aka.ms/vs/16/release/vc_redist.x64.exe -Outfile C:
 COPY --from=common ./utilities /utilities
 COPY --from=common ./resources/sitecore/Content/Website /inetpub/wwwroot
 COPY --from=common ./resources/sitecore/Content/Website/App_Config/Include/Examples/Sitecore.Owin.Authentication.IdentityServer.Disabler.config.example /inetpub/wwwroot/App_Config/Include/Sitecore.Owin.Authentication.IdentityServer.Disabler.config
-COPY ./configuration /configuration
+COPY ./configuration/${SC_VERSION} /configuration
 ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/inetpub/wwwroot", "-LicensePath", "/inetpub/wwwroot/App_Data", "-Expression", "\"C:\\ServiceMonitor.exe w3svc\""]

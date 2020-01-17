@@ -1,4 +1,5 @@
 ARG WIN_VERSION
+ARG SC_VERSION
 FROM common:${WIN_VERSION} as common
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-${WIN_VERSION}
 USER ContainerAdministrator
@@ -17,7 +18,7 @@ RUN Invoke-WebRequest https://aka.ms/vs/16/release/vc_redist.x64.exe -Outfile C:
 	Set-Service -Name w3svc -StartupType 'Manual'
 COPY --from=common ./utilities /utilities
 COPY --from=common ./resources/xconnect/Content/Website /inetpub/wwwroot
-COPY ./configuration /configuration
+COPY ./configuration/${SC_VERSION} /configuration
 RUN Rename-Item /inetpub/wwwroot/App_Data/Config/Sitecore/CoreServices/sc.XConnect.Security.EnforceSSL.xml -NewName sc.XConnect.Security.EnforceSSL.xml.disabled ; \
 	Rename-Item /inetpub/wwwroot/App_Data/Config/Sitecore/CoreServices/sc.XConnect.Security.EnforceSSLWithCertificateValidation.xml -NewName sc.XConnect.Security.EnforceSSLWithCertificateValidation.xml.disabled
 ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/inetpub/wwwroot", "-LicensePath", "/inetpub/wwwroot/App_Data", "-Expression", "\"C:\\ServiceMonitor.exe w3svc\""]

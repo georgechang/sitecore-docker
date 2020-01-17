@@ -1,11 +1,11 @@
 param(
-  $winversion = "1903",
-  $scversion = "9.3",
-  $solrversion = "8.3.0",
-  $registry = "george.azurecr.io",
-  $scarchive = "Sitecore-9.3.0.zip",
-  $xcarchive = "xConnect-9.3.0.zip",
-  $siarchive = "Identity-4.0.0.zip",
+  $WindowsVersion = "1903",
+  $SitecoreVersion = "9.3",
+  $SolrVersion = "8.3.0",
+  $Registry = "george.azurecr.io",
+  $SitecoreArchive = "Sitecore-9.3.0.zip",
+  $XConnectArchive = "xConnect-9.3.0.zip",
+  $IdentityArchive = "Identity-4.0.0.zip",
   [switch]$Dependencies = $false,
   [switch]$Common = $false,
   [switch]$Application = $false
@@ -16,14 +16,14 @@ $stopwatch = [system.diagnostics.stopwatch]::StartNew()
 # build common image
 if ($Common) {
   Push-Location .\common\
-  Start-Process docker -ArgumentList "build", "--rm", "-t", "common:$winversion", "--build-arg", "WIN_VERSION=$winversion", "--build-arg", "SC_ARCHIVE=$scarchive", "--build-arg", "XC_ARCHIVE=$xcarchive", "--build-arg", "SI_ARCHIVE=$siarchive", "."  -NoNewWindow -Wait 
+  Start-Process docker -ArgumentList "build", "--rm", "-t", "common:$WindowsVersion", "--build-arg", "WIN_VERSION=$WindowsVersion", "--build-arg", "SC_ARCHIVE=$SitecoreArchive", "--build-arg", "XC_ARCHIVE=$XConnectArchive", "--build-arg", "SI_ARCHIVE=$IdentityArchive", "."  -NoNewWindow -Wait 
   Pop-Location
 }
 
 # build dependency images
 if ($Dependencies) {
   Push-Location .\dependencies\solr
-  Start-Process docker -ArgumentList "build", "--rm", "-t", "solr:$solrversion-$winversion", "-t", "$registry/solr:$solrversion-$winversion", "--build-arg", "SOLR_VERSION=$solrversion", "--build-arg", "WIN_VERSION=$winversion", "." -NoNewWindow -Wait
+  Start-Process docker -ArgumentList "build", "--rm", "-t", "solr:$SolrVersion-$WindowsVersion", "-t", "$Registry/solr:$SolrVersion-$WindowsVersion", "--build-arg", "SOLR_VERSION=$SolrVersion", "--build-arg", "WIN_VERSION=$WindowsVersion", "." -NoNewWindow -Wait
   Pop-Location
 
   $SQLVersion = "RTM"
@@ -32,7 +32,7 @@ if ($Dependencies) {
   $CUUrl = "https://download.microsoft.com/download/C/4/F/C4F908C9-98ED-4E5F-88D5-7D6A5004AEBD/SQLServer2017-KB4515579-x64.exe"
 
   Push-Location .\dependencies\mssql
-  Start-Process docker -ArgumentList "build", "--rm", "-t", "mssql:2017-$SQLVersion-$winversion", "-t", "$registry/mssql:2017-$SQLVersion-$winversion", "--build-arg", "WIN_VERSION=$winversion", "--build-arg", "CU=$CUUrl", "." -NoNewWindow -Wait
+  Start-Process docker -ArgumentList "build", "--rm", "-t", "mssql:2017-$SQLVersion-$WindowsVersion", "-t", "$Registry/mssql:2017-$SQLVersion-$WindowsVersion", "--build-arg", "WIN_VERSION=$WindowsVersion", "--build-arg", "CU=$CUUrl", "." -NoNewWindow -Wait
   Pop-Location
 }
 
@@ -42,7 +42,7 @@ if ($Application) {
   foreach ($directory in $directories) {
     Write-Host "Building $($directory.FullName)..."
     Push-Location $directory.FullName
-    Start-Process docker -ArgumentList "build", "--rm", "-t", "$($directory.Name):$scversion-$winversion", "-t", "$registry/$($directory.Name):$scversion-$winversion", "--build-arg", "WIN_VERSION=$winversion", "."  -NoNewWindow -Wait 
+    Start-Process docker -ArgumentList "build", "--rm", "-t", "$($directory.Name):$SitecoreVersion-$WindowsVersion", "-t", "$Registry/$($directory.Name):$SitecoreVersion-$WindowsVersion", "--build-arg", "WIN_VERSION=$WindowsVersion", "--build-arg", "SC_VERSION=$SitecoreVersion", "."  -NoNewWindow -Wait 
     Pop-Location
   }
 }

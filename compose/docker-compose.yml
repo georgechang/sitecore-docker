@@ -2,6 +2,7 @@ version: "3.7"
 services:
   mssql:
     image: ${REGISTRY}mssql:2017-RTM-${WIN_VERSION}
+    isolation: process
     ports:
       - "11433:1433"
     environment:
@@ -13,11 +14,13 @@ services:
 
   solr:
     image: solr:${SOLR_VERSION}-${WIN_VERSION}
+    isolation: process
     volumes:
       - C:/docker/solr:C:/solr/server/solr/mydata
 
   sitecore:
     image: ${REGISTRY}sitecore:${SC_VERSION}-${WIN_VERSION}
+    isolation: process
     depends_on:
       - mssql
       - solr
@@ -55,22 +58,24 @@ services:
       - C:/docker/certificates:C:/certificates
       - ${PATH_LICENSE}:C:/license
 
-  identity:
-    image: identity:${SC_VERSION}-${WIN_VERSION}
-    ports:
-      - "3333:80"
-    environment:
-      - SI_CERT_THUMBPRINT=${SI_CERT_THUMBPRINT}
-      - SI_CERT_STORE_LOCATION=${SI_CERT_STORE_LOCATION}
-      - SI_CERT_STORE_NAME=${SI_CERT_STORE_NAME}
-      - SC_MEMBERSHIP_CONN_STRING=${SC_CONNSTRING_MEMBERSHIP}
-      - SC_CM_URL=${SC_CM_URL}
-      - SI_CLIENT_SECRET=${SI_CLIENT_SECRET}
-    volumes:
-      - ${PATH_LICENSE}:C:/license
+  # identity:
+  #   image: identity:${SC_VERSION}-${WIN_VERSION}
+  #   isolation: process
+  #   ports:
+  #     - "3333:80"
+  #   environment:
+  #     - SI_CERT_THUMBPRINT=${SI_CERT_THUMBPRINT}
+  #     - SI_CERT_STORE_LOCATION=${SI_CERT_STORE_LOCATION}
+  #     - SI_CERT_STORE_NAME=${SI_CERT_STORE_NAME}
+  #     - SC_MEMBERSHIP_CONN_STRING=${SC_CONNSTRING_MEMBERSHIP}
+  #     - SC_CM_URL=${SC_CM_URL}
+  #     - SI_CLIENT_SECRET=${SI_CLIENT_SECRET}
+  #   volumes:
+  #     - ${PATH_LICENSE}:C:/license
 
   xconnect:
     image: ${REGISTRY}xconnect:${SC_VERSION}-${WIN_VERSION}
+    isolation: process
     depends_on:
       - mssql
       - solr
@@ -95,6 +100,7 @@ services:
 
   xconnect-indexworker:
     image: ${REGISTRY}xconnect.indexworker:${SC_VERSION}-${WIN_VERSION}
+    isolation: process
     depends_on:
       - mssql
       - solr
@@ -107,6 +113,7 @@ services:
 
   xconnect-maengine:
     image: ${REGISTRY}xconnect.maengine:${SC_VERSION}-${WIN_VERSION}
+    isolation: process
     depends_on:
       - mssql
       - solr
@@ -124,6 +131,7 @@ services:
 
   xconnect-processingengine:
     image: ${REGISTRY}xconnect.processingengine:${SC_VERSION}-${WIN_VERSION}
+    isolation: process
     depends_on:
       - mssql
       - solr

@@ -1,4 +1,5 @@
 ARG WIN_VERSION
+ARG SC_VERSION
 FROM common:${WIN_VERSION} as common
 FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-${WIN_VERSION}
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
@@ -11,5 +12,5 @@ RUN Enable-LocalUser Administrator; \
 	Set-LocalUser Administrator -Password (New-Object SecureString)
 COPY --from=common ./utilities /utilities
 COPY --from=common ./resources/xconnect/Content/Website/App_Data/jobs/continuous/IndexWorker /app
-COPY ./configuration /configuration
+COPY ./configuration/${SC_VERSION} /configuration
 ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data", "-Expression", "/app/Sitecore.XConnectSearchIndexer.exe"]
