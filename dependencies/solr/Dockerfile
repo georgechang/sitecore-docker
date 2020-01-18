@@ -1,5 +1,4 @@
 ARG WIN_VERSION
-
 FROM common:${WIN_VERSION} as stage
 ARG JAVA_VERSION=8u232
 ARG JAVA_BASE_URL=https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jre_
