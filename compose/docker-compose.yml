@@ -24,7 +24,7 @@ services:
     depends_on:
       - mssql
       - solr
-      - identity
+      # - identity
       - xconnect
     ports:
       - "2222:80"
