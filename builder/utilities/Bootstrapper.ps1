@@ -20,6 +20,10 @@ if (Test-Path /init) {
 	Get-ChildItem /init -Filter *.ps1 | ForEach-Object { & $_.FullName }
 }
 
-if ($Expression) {
-	Invoke-Expression $Expression
+# if ($Expression) {
+# 	Invoke-Expression $Expression
+# }
+
+if (Test-Path "/configuration/Startup.ps1") {
+	Invoke-Expression "/configuration/Startup.ps1"
 }

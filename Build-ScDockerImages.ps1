@@ -3,11 +3,11 @@ param(
   $SitecoreVersion = "9.3",
   $SolrVersion = "8.3.0",
   $Registry = "george.azurecr.io",
-  $SitecoreArchive = "./packages/9.3/Sitecore-9.3.0.zip",
-  $XConnectArchive = "./packages/9.3/xConnect-9.3.0.zip",
-  $IdentityArchive = "./packages/9.3/Identity-4.0.0.zip",
+  $SitecoreArchive = "./packages/9.3/Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
+  $XConnectArchive = "./packages/9.3/Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
+  $IdentityArchive = "./packages/9.3/Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
   [switch]$Dependencies = $false,
-  [switch]$Common = $false,
+  [switch]$Builder = $false,
   [switch]$Application = $false
 )
 
@@ -18,18 +18,17 @@ $buildArgs += "build"
 $buildArgs += "--rm"
 $buildArgs += "--isolation=process"
 
-# build common image
-if ($Common) {
-  $commonBuildArgs = $buildArgs
-  $commonBuildArgs += "-t common:$SitecoreVersion-$WindowsVersion"
-  $commonBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
-  $commonBuildArgs += "--build-arg SC_ARCHIVE=$SitecoreArchive"
-  $commonBuildArgs += "--build-arg XC_ARCHIVE=$XConnectArchive"
-  $commonBuildArgs += "--build-arg SI_ARCHIVE=$IdentityArchive"
-  $commonBuildArgs += "--no-cache"
-  $commonBuildArgs += "."
-  Push-Location .\common\
-  Start-Process docker -ArgumentList $commonBuildArgs -NoNewWindow -Wait 
+# build builder image
+if ($Builder) {
+  $builderBuildArgs = $buildArgs
+  $builderBuildArgs += "-t builder:$SitecoreVersion-$WindowsVersion"
+  $builderBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $builderBuildArgs += "--build-arg SC_ARCHIVE=""$SitecoreArchive"""
+  $builderBuildArgs += "--build-arg XC_ARCHIVE=""$XConnectArchive"""
+  $builderBuildArgs += "--build-arg SI_ARCHIVE=""$IdentityArchive"""
+  $builderBuildArgs += "."
+  Push-Location .\builder\
+  Start-Process docker -ArgumentList $builderBuildArgs -NoNewWindow -Wait 
   Pop-Location
 }
 
@@ -84,6 +83,7 @@ if ($Application) {
     $applicationBuildArgs += "-t $Registry/$applicationTag"
     $applicationBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
     $applicationBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
+    $applicationBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
     $applicationBuildArgs += "."
     Write-Host "Building $($directory.FullName)..."
     Push-Location $directory.FullName

@@ -1,0 +1,1 @@
+Invoke-Expression -Command "/app/Sitecore.XConnectSearchIndexer.exe"

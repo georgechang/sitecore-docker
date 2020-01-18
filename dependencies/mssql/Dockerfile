@@ -1,6 +1,6 @@
 ARG WIN_VERSION
 
-FROM mcr.microsoft.com/powershell:windowsservercore-${WIN_VERSION} AS stage
+FROM mcr.microsoft.com/powershell:windowsservercore-${WIN_VERSION} as builder
 
 # Download Links:
 ARG EXE=https://go.microsoft.com/fwlink/?linkid=840945
@@ -15,8 +15,8 @@ RUN Invoke-WebRequest -Uri $env:box -OutFile SQL.box ; \
 #Start-Process -Wait -FilePath .\CU.exe -ArgumentList /q, /X:cu;
 
 FROM mcr.microsoft.com/powershell:windowsservercore-${WIN_VERSION}
-COPY --from=stage ./setup /setup
-#COPY --from=stage ./cu /cu
+COPY --from=builder ./setup /setup
+#COPY --from=builder ./cu /cu
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN     .\setup\setup.exe /q /ACTION=Install /INSTANCENAME=MSSQLSERVER /FEATURES=SQLEngine /UPDATEENABLED=0 /SQLUSERDBDIR='C:\Data' /SQLUSERDBLOGDIR='C:\Data' /SQLBACKUPDIR='C:\Backup' /SQLSVCACCOUNT='NT AUTHORITY\NETWORK SERVICE' /SQLSYSADMINACCOUNTS='BUILTIN\ADMINISTRATORS' /TCPENABLED=1 /NPENABLED=0 /IACCEPTSQLSERVERLICENSETERMS ; \

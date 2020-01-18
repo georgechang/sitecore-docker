@@ -1,13 +1,13 @@
 ARG WIN_VERSION
 ARG SC_VERSION
-FROM common:${WIN_VERSION} as common
+FROM builder:${SC_VERSION}-${WIN_VERSION} as builder
 FROM mcr.microsoft.com/windows/nanoserver:sac2016 as tool
 FROM mcr.microsoft.com/powershell:nanoserver-${WIN_VERSION} as powershell
 FROM mcr.microsoft.com/dotnet/core/runtime:2.2-nanoserver-${WIN_VERSION}
 COPY --from=powershell ["/Program Files/PowerShell", "/Program Files/PowerShell"]
 # COPY --from=tool /Windows/System32/certoc.exe /configuration/certoc.exe
-COPY --from=common /utilities /utilities
-COPY --from=common ./resources/identity/Content/Website /app
+COPY --from=builder /utilities /utilities
+COPY --from=builder ./resources/identity/Content/Website /app
 COPY ./configuration/${SC_VERSION} /configuration
 USER ContainerAdministrator
 RUN setx /m PATH "%PATH%;C:\Program Files\PowerShell"

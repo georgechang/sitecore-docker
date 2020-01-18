@@ -1,5 +1,6 @@
 ARG WIN_VERSION
-FROM common:${WIN_VERSION} as stage
+ARG SC_VERSION
+FROM builder:${SC_VERSION}-${WIN_VERSION} as builder
 ARG TRAEFIK_VERSION
 SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN Invoke-WebRequest -Uri "https://github.com/containous/traefik/releases/download/v$($env:TRAEFIK_VERSION)/traefik_v$($env:TRAEFIK_VERSION)_windows_amd64.zip" -OutFile /traefik.zip; \
@@ -7,7 +8,7 @@ RUN Invoke-WebRequest -Uri "https://github.com/containous/traefik/releases/downl
 	Remove-Item /traefik.zip -Force
 
 FROM mcr.microsoft.com/windows/nanoserver:${WIN_VERSION}
-COPY --from=stage ./traefik /traefik
+COPY --from=builder ./traefik /traefik
 USER ContainerUser
 EXPOSE 80
 ENTRYPOINT ["/traefik/traefik.exe"]

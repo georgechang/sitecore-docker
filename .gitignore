@@ -1,3 +1,4 @@
 .vscode/
-/common/resources
-/common/packages
+/builder/resources
+/builder/packages
+/builder/license

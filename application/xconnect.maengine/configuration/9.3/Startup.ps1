@@ -1,0 +1,1 @@
+Invoke-Expression -Command "/app/Sitecore.MAEngine.exe"

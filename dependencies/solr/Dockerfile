@@ -1,5 +1,6 @@
 ARG WIN_VERSION
-FROM common:${WIN_VERSION} as stage
+ARG SC_VERSION
+FROM builder:${SC_VERSION}-${WIN_VERSION} as builder
 ARG JAVA_VERSION=8u232
 ARG JAVA_BASE_URL=https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jre_
 ARG JAVA_URL_VERSION=8u232b09
@@ -24,8 +25,8 @@ RUN Write-Host ('Installing Solr {0}...' -f $env:SOLR_VERSION); \
 	Move-Item -Path C:\temp\* -Destination C:\solr;
 
 FROM mcr.microsoft.com/windows/nanoserver:${WIN_VERSION}
-COPY --from=stage ./openjdk /openjdk
-COPY --from=stage ./solr /solr
+COPY --from=builder ./openjdk /openjdk
+COPY --from=builder ./solr /solr
 ENV JAVA_HOME C:\\openjdk
 USER ContainerAdministrator
 RUN setx /M PATH "%PATH%C:\openjdk\bin"

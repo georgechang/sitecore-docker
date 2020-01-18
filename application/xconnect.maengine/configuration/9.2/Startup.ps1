@@ -1,0 +1,1 @@
+Invoke-Expression -Command "/app/MAEngine.exe"

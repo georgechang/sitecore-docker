@@ -1,0 +1,1 @@
+Invoke-Expression -Command "C:\ServiceMonitor.exe w3svc"
