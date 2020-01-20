@@ -39,7 +39,9 @@ if ($Dependencies) {
   $solrBuildArgs += "-t $solrTag"
   $solrBuildArgs += "-t $Registry/$solrTag"
   $solrBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $solrBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
   $solrBuildArgs += "--build-arg SOLR_VERSION=$SolrVersion"
+  $solrBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
   $solrBuildArgs += "."
   Push-Location .\dependencies\solr
   Start-Process docker -ArgumentList $solrBuildArgs -NoNewWindow -Wait

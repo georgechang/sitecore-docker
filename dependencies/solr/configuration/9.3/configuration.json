@@ -1,0 +1,18 @@
+{
+  "cores": [
+    "sc_core_index",
+    "sc_fxm_master_index",
+    "sc_fxm_web_index",
+    "sc_marketing_asset_index_master",
+    "sc_marketing_asset_index_web",
+    "sc_marketingdefinitions_master",
+    "sc_marketingdefinitions_web",
+    "sc_master_index",
+    "sc_personalization_index",
+    "sc_suggested_test_index",
+    "sc_testing_index",
+    "sc_web_index",
+    "sc_xdb",
+    "sc_xdb_rebuild"
+  ]
+}

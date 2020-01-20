@@ -20,6 +20,7 @@ RUN Invoke-WebRequest https://aka.ms/vs/16/release/vc_redist.x64.exe -Outfile C:
 	Set-Service -Name w3svc -StartupType 'Manual'
 COPY --from=builder ./utilities /utilities
 COPY --from=builder ./resources/sitecore/Content/Website /inetpub/wwwroot
+COPY --from=builder ./resources/sitecore/Content/Website/App_Config/Include/Examples/Sitecore.Owin.Authentication.Disabler.config.example /inetpub/wwwroot/App_Config/Include/Sitecore.Owin.Authentication.Disabler.config
 COPY --from=builder ./resources/sitecore/Content/Website/App_Config/Include/Examples/Sitecore.Owin.Authentication.IdentityServer.Disabler.config.example /inetpub/wwwroot/App_Config/Include/Sitecore.Owin.Authentication.IdentityServer.Disabler.config
 COPY ${CONFIGURATION} /configuration
 ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/inetpub/wwwroot", "-LicensePath", "/inetpub/wwwroot/App_Data"]

@@ -25,8 +25,10 @@ RUN Write-Host ('Installing Solr {0}...' -f $env:SOLR_VERSION); \
 	Move-Item -Path C:\temp\* -Destination C:\solr;
 
 FROM mcr.microsoft.com/windows/nanoserver:${WIN_VERSION}
+ARG CONFIGURATION
 COPY --from=builder ./openjdk /openjdk
 COPY --from=builder ./solr /solr
+COPY ${CONFIGURATION} /configuration
 ENV JAVA_HOME C:\\openjdk
 USER ContainerAdministrator
 RUN setx /M PATH "%PATH%C:\openjdk\bin"
