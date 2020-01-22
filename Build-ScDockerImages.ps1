@@ -23,6 +23,7 @@ if ($Builder) {
   $builderBuildArgs = $buildArgs
   $builderBuildArgs += "-t builder:$SitecoreVersion-$WindowsVersion"
   $builderBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $builderBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
   $builderBuildArgs += "--build-arg SC_ARCHIVE=""$SitecoreArchive"""
   $builderBuildArgs += "--build-arg XC_ARCHIVE=""$XConnectArchive"""
   $builderBuildArgs += "--build-arg SI_ARCHIVE=""$IdentityArchive"""

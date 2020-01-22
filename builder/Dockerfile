@@ -3,7 +3,9 @@ FROM mcr.microsoft.com/powershell:nanoserver-${WIN_VERSION}
 ARG SC_ARCHIVE
 ARG XC_ARCHIVE
 ARG SI_ARCHIVE
+ARG CONFIGURATION
 COPY ./utilities /utilities
+COPY ${CONFIGURATION} /configuration
 COPY ${SC_ARCHIVE} /packages/sitecore.zip
 COPY ${XC_ARCHIVE} /packages/xconnect.zip
 COPY ${SI_ARCHIVE} /packages/identity.zip
