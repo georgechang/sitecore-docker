@@ -24,7 +24,7 @@ RUN Write-Host ('Installing Solr {0}...' -f $env:SOLR_VERSION); \
 	Expand-Archive solr.zip -DestinationPath C:\temp; \
 	Move-Item -Path C:\temp\* -Destination C:\solr;
 
-FROM mcr.microsoft.com/windows/nanoserver:${WIN_VERSION}
+FROM mcr.microsoft.com/powershell:nanoserver-${WIN_VERSION}
 ARG CONFIGURATION
 COPY --from=builder ./openjdk /openjdk
 COPY --from=builder ./solr /solr
@@ -32,6 +32,5 @@ COPY ${CONFIGURATION} /configuration
 ENV JAVA_HOME C:\\openjdk
 USER ContainerAdministrator
 RUN setx /M PATH "%PATH%C:\openjdk\bin"
-USER ContainerUser
 EXPOSE 8983
-ENTRYPOINT [ "/solr/bin/solr.cmd", "start", "-f", "-t", "./mydata", "-p", "8983" ]
+ENTRYPOINT ["pwsh", "/configuration/Startup.ps1"]

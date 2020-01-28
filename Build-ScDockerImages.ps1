@@ -23,6 +23,7 @@ if ($Builder) {
   $builderBuildArgs = $buildArgs
   $builderBuildArgs += "-t builder:$SitecoreVersion-$WindowsVersion"
   $builderBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $builderBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
   $builderBuildArgs += "--build-arg SC_ARCHIVE=""$SitecoreArchive"""
   $builderBuildArgs += "--build-arg XC_ARCHIVE=""$XConnectArchive"""
   $builderBuildArgs += "--build-arg SI_ARCHIVE=""$IdentityArchive"""
@@ -62,12 +63,13 @@ if ($Dependencies) {
   Start-Process docker -ArgumentList $sqlBuildArgs -NoNewWindow -Wait
   Pop-Location
 
-  $TraefikVersion = "2.1.2"
+  $TraefikVersion = "1.7.20"
   $traefikTag = "traefik:$WindowsVersion"
   $traefikBuildArgs = $buildArgs
   $traefikBuildArgs += "-t $traefikTag"
   $traefikBuildArgs += "-t $Registry/$traefikTag"
   $traefikBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $traefikBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
   $traefikBuildArgs += "--build-arg TRAEFIK_VERSION=$TraefikVersion"
   $traefikBuildArgs += "."
   Push-Location .\dependencies\traefik
