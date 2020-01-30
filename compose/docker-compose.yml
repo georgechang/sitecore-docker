@@ -147,3 +147,14 @@ services:
     volumes:
       - C:/docker/certificates:C:/certificates
       - ${PATH_LICENSE}:C:/license
+
+  reverse-proxy:
+    image: traefik:1.7.20-1903
+    isolation: process
+    command: --docker --docker.endpoint=npipe:////./pipe/docker_engine
+    ports:
+      - "80:80"
+    volumes:
+      - source: '\\.\pipe\docker_engine'
+        target: '\\.\pipe\docker_engine'
+        type: npipe

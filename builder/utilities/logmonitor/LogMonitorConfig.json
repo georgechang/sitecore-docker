@@ -1,0 +1,12 @@
+{
+  "LogConfig": {
+    "sources": [
+      {
+        "type": "File",
+        "directory": "c:\\inetpub\\wwwroot\\App_Data\\logs",
+        "filter": "log.*.txt",
+        "includeSubdirectories": false
+      }
+    ]
+  }
+}

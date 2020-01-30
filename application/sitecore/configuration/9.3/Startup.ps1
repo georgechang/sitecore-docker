@@ -1,1 +1,1 @@
-Invoke-Expression -Command "C:\ServiceMonitor.exe w3svc"
+Invoke-Expression -Command "C:\utilities\logmonitor\LogMonitor.exe C:\ServiceMonitor.exe w3svc"

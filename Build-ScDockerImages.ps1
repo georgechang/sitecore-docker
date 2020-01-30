@@ -64,7 +64,7 @@ if ($Dependencies) {
   Pop-Location
 
   $TraefikVersion = "1.7.20"
-  $traefikTag = "traefik:$WindowsVersion"
+  $traefikTag = "traefik:$TraefikVersion-$WindowsVersion"
   $traefikBuildArgs = $buildArgs
   $traefikBuildArgs += "-t $traefikTag"
   $traefikBuildArgs += "-t $Registry/$traefikTag"

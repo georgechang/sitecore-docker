@@ -31,6 +31,6 @@ COPY ./Start.ps1 /
 ENV SA_PASSWORD="_"
 ENV ATTACH_DBS="[]"
 ENV ACCEPT_EULA="_"
-
+EXPOSE 1433
 HEALTHCHECK CMD [ "sqlcmd", "-Q", "select 1" ]
 CMD .\Start.ps1 -sa_password $env:sa_password -ACCEPT_EULA $env:ACCEPT_EULA -attach_dbs \"$env:attach_dbs\" -Verbose

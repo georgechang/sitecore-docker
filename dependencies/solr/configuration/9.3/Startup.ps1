@@ -5,12 +5,14 @@ foreach ($core in $json.cores) {
 		Write-Host "Core '$core' not found, creating..."
 		Copy-Item -Recurse "/solr/server/solr/configsets/_default" "/solr/server/solr/mydata/$core"
 		Write-Host "Core '$core' created."
+		# http://sitecore/sitecore/admin/PopulateManagedSchema.aspx?indexes=all
 	}
 	else {
 		Write-Host "Core '$core' found, skipping..."
 	}
 }
 
-# https://prft.sc/sitecore/admin/PopulateManagedSchema.aspx?indexes=all
+# nuke write.lock files
+Get-ChildItem "/solr/server/solr/mydata" -Include write.lock -Recurse | Remove-Item
 
 Invoke-Expression -Command "/solr/bin/solr.cmd start -f -t ./mydata -p 8983" 
