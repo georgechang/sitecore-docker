@@ -1,0 +1,17 @@
+## traefik.yml
+
+# Docker configuration backend
+providers:
+  docker:
+    endpoint: npipe:////./pipe/docker_engine
+    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.local`)"
+
+# API and dashboard configuration
+api:
+  insecure: true
+# certificatesResolvers:
+#   le:
+#     acme:
+#       storage: C:/traefik/acme.json
+#       httpChallenge:
+#         entrypoint: web

@@ -63,8 +63,8 @@ if ($Dependencies) {
   Start-Process docker -ArgumentList $sqlBuildArgs -NoNewWindow -Wait
   Pop-Location
 
-  $TraefikVersion = "1.7.20"
-  $traefikTag = "traefik:$WindowsVersion"
+  $TraefikVersion = "2.1.3"
+  $traefikTag = "traefik:$TraefikVersion-$WindowsVersion"
   $traefikBuildArgs = $buildArgs
   $traefikBuildArgs += "-t $traefikTag"
   $traefikBuildArgs += "-t $Registry/$traefikTag"
