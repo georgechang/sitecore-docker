@@ -1,11 +1,12 @@
 param(
-  $WindowsVersion = "1903",
-  $SitecoreVersion = "9.3",
-  $SolrVersion = "8.3.0",
+  $WindowsVersion = "1909",
+  $SitecoreVersion = "9.3.0",
+  $SolrVersion = "8.5.2",
   $Registry = "george.azurecr.io",
-  $SitecoreArchive = "./packages/9.3/Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
-  $XConnectArchive = "./packages/9.3/Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
-  $IdentityArchive = "./packages/9.3/Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
+  $SitecoreArchive = "./packages/9.3.0/Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
+  $XConnectArchive = "./packages/9.3.0/Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
+  $IdentityArchive = "./packages/9.3.0/Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
+  $SqlArchive = "./packages/mssql/mssql-2019.zip",
   [switch]$Dependencies = $false,
   [switch]$Builder = $false,
   [switch]$Application = $false
@@ -27,6 +28,7 @@ if ($Builder) {
   $builderBuildArgs += "--build-arg SC_ARCHIVE=""$SitecoreArchive"""
   $builderBuildArgs += "--build-arg XC_ARCHIVE=""$XConnectArchive"""
   $builderBuildArgs += "--build-arg SI_ARCHIVE=""$IdentityArchive"""
+  $builderBuildArgs += "--build-arg MSSQL_ARCHIVE=""$SqlArchive"""
   $builderBuildArgs += "."
   Push-Location .\builder\
   Start-Process docker -ArgumentList $builderBuildArgs -NoNewWindow -Wait 
@@ -48,16 +50,17 @@ if ($Dependencies) {
   Start-Process docker -ArgumentList $solrBuildArgs -NoNewWindow -Wait
   Pop-Location
 
-  $SQLVersion = "RTM"
+  $SQLVersion = "CU4"
   #$SQLVersion = "CU17"
   # 11 $CUUrl = "http://download.windowsupdate.com/c/msdownload/update/software/updt/2018/09/sqlserver2017-kb4462262-x64_c974e2962d83a909c08bbe7a48c8c022e9076f58.exe"
-  $CUUrl = "https://download.microsoft.com/download/C/4/F/C4F908C9-98ED-4E5F-88D5-7D6A5004AEBD/SQLServer2017-KB4515579-x64.exe"
-  $sqlTag = "mssql:2017-$SQLVersion-$WindowsVersion"
+  #$CUUrl = "https://download.microsoft.com/download/C/4/F/C4F908C9-98ED-4E5F-88D5-7D6A5004AEBD/SQLServer2017-KB4515579-x64.exe"
+  $sqlTag = "mssql:2019-$SQLVersion-$WindowsVersion"
   $sqlBuildArgs = $buildArgs
   $sqlBuildArgs += "-t $sqlTag"
   $sqlBuildArgs += "-t $Registry/$sqlTag"
+  $sqlBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
   $sqlBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
-  $sqlBuildArgs += "--build-arg CU=$CUUrl"
+  #$sqlBuildArgs += "--build-arg CU=$CUUrl"
   $sqlBuildArgs += "."
   Push-Location .\dependencies\mssql
   Start-Process docker -ArgumentList $sqlBuildArgs -NoNewWindow -Wait
