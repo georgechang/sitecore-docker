@@ -2,6 +2,7 @@ version: "3.7"
 services:
   mssql:
     image: ${REGISTRY}mssql:2019-CU4-${WIN_VERSION}
+    #image: microsoft/mssql-server-windows-developer:2017
     isolation: process
     ports:
       - "11433:1433"

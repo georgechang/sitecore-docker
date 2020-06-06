@@ -1,19 +1,43 @@
 version: "3.7"
 services:
   solr:
-    image: solr:7
-    ports:
-      - "18983:8983"
-      - "19983:9983"
+    image: solr:8
+    # ports:
+    #   - "18983:8983"
+    #   - "19983:9983"
     command: solr -f
     volumes:
       - C:\docker\solr:/opt/solr/server/solr/mycores
-  sql-server:
-    image: mcr.microsoft.com/mssql/server:2017-CU11-ubuntu
-    ports:
-      - "11433:1433"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.solr.entrypoints=solr"
+      - "traefik.http.routers.solr.rule=Host(`solr-127-0-0-1.nip.io`)"
+  sql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    # ports:
+    #   - "1234:1234"
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=pass@word1
+      - MSSQL_TCP_PORT=1234
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sql.entrypoints=sql"
+      - "traefik.http.routers.sql.rule=Host(`sql-127-0-0-1.nip.io`)"
+  traefik:
+    image: traefik:latest
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.sql.address=:1234"
+      - "--entrypoints.solr.address=:8983"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "1234:1234"
+      - "8983:8983"
     volumes:
-      - C:\docker\sql:/var/opt/mssql
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"

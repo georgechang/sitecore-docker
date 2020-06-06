@@ -1,5 +1,5 @@
 ARG WIN_VERSION
-FROM mcr.microsoft.com/powershell:nanoserver-${WIN_VERSION}
+FROM powershell:${WIN_VERSION}
 ARG SC_ARCHIVE
 ARG XC_ARCHIVE
 ARG SI_ARCHIVE

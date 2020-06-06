@@ -1,14 +1,16 @@
 param(
-  $WindowsVersion = "1909",
-  $SitecoreVersion = "9.3.0",
+  $WindowsVersion = "2004",
+  $SitecoreVersion = "9.3",
   $SolrVersion = "8.5.2",
   $Registry = "george.azurecr.io",
   $SitecoreArchive = "./packages/9.3.0/Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
   $XConnectArchive = "./packages/9.3.0/Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
   $IdentityArchive = "./packages/9.3.0/Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
   $SqlArchive = "./packages/mssql/mssql-2019.zip",
+  $PowerShellPath = "./packages/dependencies/PowerShell-7.0.1-win-x64",
   [switch]$Dependencies = $false,
   [switch]$Builder = $false,
+  [switch]$PowerShell = $false,
   [switch]$Application = $false
 )
 
@@ -18,6 +20,18 @@ $buildArgs = @()
 $buildArgs += "build"
 $buildArgs += "--rm"
 $buildArgs += "--isolation=process"
+
+if ($PowerShell) {
+  $powershellBaseBuildArgs = $buildArgs
+  $powershellBaseBuildArgs += "-t powershell:$WindowsVersion"
+  $powershellBaseBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $powershellBaseBuildArgs += "--build-arg PS_PATH=$PowerShellPath"
+  $powershellBaseBuildArgs += "."
+  Write-Host "Parameters: $powershellBaseBuildArgs"
+  Push-Location .\powershell\
+  Start-Process docker -ArgumentList $powershellBaseBuildArgs -NoNewWindow -Wait 
+  Pop-Location
+}
 
 # build builder image
 if ($Builder) {

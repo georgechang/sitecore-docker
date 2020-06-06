@@ -24,7 +24,7 @@ RUN Write-Host ('Installing Solr {0}...' -f $env:SOLR_VERSION); \
 	Expand-Archive solr.zip -DestinationPath C:\temp; \
 	Move-Item -Path C:\temp\* -Destination C:\solr;
 
-FROM mcr.microsoft.com/powershell:nanoserver-${WIN_VERSION}
+FROM powershell:${WIN_VERSION}
 ARG CONFIGURATION
 COPY --from=builder ./openjdk /openjdk
 COPY --from=builder ./solr /solr
