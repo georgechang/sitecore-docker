@@ -1,11 +1,11 @@
 ARG WIN_VERSION
 ARG SC_VERSION
 FROM builder:${SC_VERSION}-${WIN_VERSION} as builder
-ARG JAVA_VERSION=8u232
-ARG JAVA_BASE_URL=https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jre_
-ARG JAVA_URL_VERSION=8u232b09
-ARG SOLR_VERSION=7.5.0
-ARG SOLR_BASE_URL=https://archive.apache.org/dist/lucene/solr
+ARG JAVA_VERSION
+ARG JAVA_BASE_URL
+ARG JAVA_URL_VERSION
+ARG SOLR_VERSION
+ARG SOLR_BASE_URL
 SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN New-Item -ItemType Directory -Path C:\temp | Out-Null; \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
@@ -24,13 +24,13 @@ RUN Write-Host ('Installing Solr {0}...' -f $env:SOLR_VERSION); \
 	Expand-Archive solr.zip -DestinationPath C:\temp; \
 	Move-Item -Path C:\temp\* -Destination C:\solr;
 
-FROM powershell:${WIN_VERSION}
+FROM powershell:nanoserver-${WIN_VERSION}
 ARG CONFIGURATION
 COPY --from=builder ./openjdk /openjdk
 COPY --from=builder ./solr /solr
 COPY ${CONFIGURATION} /configuration
 ENV JAVA_HOME C:\\openjdk
 USER ContainerAdministrator
-RUN setx /M PATH "%PATH%C:\openjdk\bin"
+RUN setx /M PATH "%PATH%C:\openjdk\bin;"
 EXPOSE 8983
 ENTRYPOINT ["pwsh", "/configuration/Startup.ps1"]

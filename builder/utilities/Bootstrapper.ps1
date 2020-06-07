@@ -12,7 +12,7 @@ if ($Path) {
 	Pop-Location
 }
 
-if ($LicensePath) {
+if ($LicensePath -and (Test-Path "/license/license.xml")) {
 	Copy-Item -Path "/license/license.xml" -Destination $LicensePath
 }
 

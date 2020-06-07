@@ -17,10 +17,14 @@ RUN Invoke-WebRequest https://aka.ms/vs/16/release/vc_redist.x64.exe -Outfile C:
 	Add-LocalGroupMember -Group 'Performance Monitor Users' -Member 'User Manager\ContainerAdministrator', 'IIS APPPOOL\DefaultAppPool' -ErrorAction SilentlyContinue; \
 	Add-LocalGroupMember -Group 'Performance Log Users' -Member 'User Manager\ContainerAdministrator', 'IIS APPPOOL\DefaultAppPool' -ErrorAction SilentlyContinue; \
 	icacls 'C:\inetpub\wwwroot' /grant 'IIS_IUSRS:(OI)(CI)F' /T; \
+	New-Item C:\license -ItemType Directory | Out-Null; \
+	icacls 'C:\license' /grant 'IIS_IUSRS:(OI)(CI)F' /T; \
 	Set-Service -Name w3svc -StartupType 'Manual'
 COPY --from=builder ./utilities /utilities
+COPY --from=builder ./logmonitor /logmonitor
 COPY --from=builder ./resources/sitecore/Content/Website /inetpub/wwwroot
 COPY --from=builder ./resources/sitecore/Content/Website/App_Config/Include/Examples/Sitecore.Owin.Authentication.Disabler.config.example /inetpub/wwwroot/App_Config/Include/Sitecore.Owin.Authentication.Disabler.config
 COPY --from=builder ./resources/sitecore/Content/Website/App_Config/Include/Examples/Sitecore.Owin.Authentication.IdentityServer.Disabler.config.example /inetpub/wwwroot/App_Config/Include/Sitecore.Owin.Authentication.IdentityServer.Disabler.config
 COPY ${CONFIGURATION} /configuration
-ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/inetpub/wwwroot", "-LicensePath", "/inetpub/wwwroot/App_Data"]
+COPY ./logmonitor/LogMonitorConfig.json /logmonitor/LogMonitorConfig.json
+ENTRYPOINT ["C:\\logmonitor\\LogMonitor.exe", "powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/inetpub/wwwroot", "-LicensePath", "/inetpub/wwwroot/App_Data"]

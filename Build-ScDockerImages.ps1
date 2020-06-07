@@ -1,13 +1,21 @@
 param(
   $WindowsVersion = "2004",
-  $SitecoreVersion = "9.3",
+  $SitecoreVersion = "9.3.0",
   $SolrVersion = "8.5.2",
+  $PowerShellVersion = "7.0.1",
+  $SqlVersion = "2019-CU4",
+  $SqlBuild = "15",
+  $TraefikVersion = "2.1.3",
   $Registry = "george.azurecr.io",
-  $SitecoreArchive = "./packages/9.3.0/Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
-  $XConnectArchive = "./packages/9.3.0/Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
-  $IdentityArchive = "./packages/9.3.0/Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
-  $SqlArchive = "./packages/mssql/mssql-2019.zip",
-  $PowerShellPath = "./packages/dependencies/PowerShell-7.0.1-win-x64",
+  $SitecoreArchive = "Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
+  $XConnectArchive = "Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
+  $IdentityArchive = "Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
+  $PowerShellArchive = "PowerShell-7.0.1-win-x64.zip",
+  $SqlExe = "SQLServer2019-DEV-x64-ENU.exe",
+  $JavaVersion = "8u232",
+  $JavaUrlVersion = "8u232b09",
+  $JavaBaseUrl = "https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jre_",
+  $SolrBaseUrl = "https://archive.apache.org/dist/lucene/solr",
   [switch]$Dependencies = $false,
   [switch]$Builder = $false,
   [switch]$PowerShell = $false,
@@ -22,35 +30,56 @@ $buildArgs += "--rm"
 $buildArgs += "--isolation=process"
 
 if ($PowerShell) {
+  Push-Location .\dependencies\powershell\
+  $powershellResourcesPath = ".\resources\$PowerShellVersion"
+
+  if (!(Test-Path $powershellResourcesPath)) {
+    Expand-Archive $PSScriptRoot\packages\powershell\$PowerShellVersion\$PowerShellArchive -DestinationPath $powershellResourcesPath -Force
+  }
+
   $powershellBaseBuildArgs = $buildArgs
-  $powershellBaseBuildArgs += "-t powershell:$WindowsVersion"
+  $powershellBaseBuildArgs += "-t powershell:nanoserver-$WindowsVersion"
   $powershellBaseBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
-  $powershellBaseBuildArgs += "--build-arg PS_PATH=$PowerShellPath"
+  $powershellBaseBuildArgs += "--build-arg PS_PATH=$powershellResourcesPath"
   $powershellBaseBuildArgs += "."
-  Write-Host "Parameters: $powershellBaseBuildArgs"
-  Push-Location .\powershell\
   Start-Process docker -ArgumentList $powershellBaseBuildArgs -NoNewWindow -Wait 
   Pop-Location
 }
 
 # build builder image
 if ($Builder) {
+  Push-Location .\builder\
+  $sitecoreResourcesPath = ".\resources\$SitecoreVersion\sitecore"
+  $xconnectResourcesPath = ".\resources\$SitecoreVersion\xconnect"
+  $identityResourcesPath = ".\resources\$SitecoreVersion\identity"
+  
+  if (!(Test-Path $sitecoreResourcesPath)) {
+    Expand-Archive $PSScriptRoot\packages\sitecore\$SitecoreVersion\$SitecoreArchive -DestinationPath $sitecoreResourcesPath -Force
+  }
+
+  if (!(Test-Path $xconnectResourcesPath)) {
+    Expand-Archive $PSScriptRoot\packages\sitecore\$SitecoreVersion\$XConnectArchive -DestinationPath $xconnectResourcesPath -Force
+  }
+
+  if (!(Test-Path $identityResourcesPath)) {
+    Expand-Archive $PSScriptRoot\packages\sitecore\$SitecoreVersion\$IdentityArchive -DestinationPath $identityResourcesPath -Force
+  }
+
   $builderBuildArgs = $buildArgs
   $builderBuildArgs += "-t builder:$SitecoreVersion-$WindowsVersion"
   $builderBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
-  $builderBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
-  $builderBuildArgs += "--build-arg SC_ARCHIVE=""$SitecoreArchive"""
-  $builderBuildArgs += "--build-arg XC_ARCHIVE=""$XConnectArchive"""
-  $builderBuildArgs += "--build-arg SI_ARCHIVE=""$IdentityArchive"""
-  $builderBuildArgs += "--build-arg MSSQL_ARCHIVE=""$SqlArchive"""
+  $builderBuildArgs += "--build-arg CONFIGURATION_PATH=""./configuration/$SitecoreVersion"""
+  $builderBuildArgs += "--build-arg SC_PATH=""$sitecoreResourcesPath"""
+  $builderBuildArgs += "--build-arg XC_PATH=""$xconnectResourcesPath"""
+  $builderBuildArgs += "--build-arg SI_PATH=""$identityResourcesPath"""
   $builderBuildArgs += "."
-  Push-Location .\builder\
   Start-Process docker -ArgumentList $builderBuildArgs -NoNewWindow -Wait 
   Pop-Location
 }
 
 # build dependency images
 if ($Dependencies) {
+  # Solr
   $solrTag = "solr:$SolrVersion-$WindowsVersion"
   $solrBuildArgs = $buildArgs
   $solrBuildArgs += "-t $solrTag"
@@ -58,29 +87,37 @@ if ($Dependencies) {
   $solrBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
   $solrBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
   $solrBuildArgs += "--build-arg SOLR_VERSION=$SolrVersion"
+  $solrBuildArgs += "--build-arg SOLR_BASE_URL=""$SolrBaseUrl"""
+  $solrBuildArgs += "--build-arg JAVA_VERSION=$JavaVersion"
+  $solrBuildArgs += "--build-arg JAVA_URL_VERSION=$JavaUrlVersion"
+  $solrBuildArgs += "--build-arg JAVA_BASE_URL=""$JavaBaseUrl"""
   $solrBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
   $solrBuildArgs += "."
+
   Push-Location .\dependencies\solr
   Start-Process docker -ArgumentList $solrBuildArgs -NoNewWindow -Wait
   Pop-Location
 
-  $SQLVersion = "CU4"
-  #$SQLVersion = "CU17"
-  # 11 $CUUrl = "http://download.windowsupdate.com/c/msdownload/update/software/updt/2018/09/sqlserver2017-kb4462262-x64_c974e2962d83a909c08bbe7a48c8c022e9076f58.exe"
-  #$CUUrl = "https://download.microsoft.com/download/C/4/F/C4F908C9-98ED-4E5F-88D5-7D6A5004AEBD/SQLServer2017-KB4515579-x64.exe"
-  $sqlTag = "mssql:2019-$SQLVersion-$WindowsVersion"
+  # SQL Server
+  Push-Location .\dependencies\mssql
+  $sqlResourcesPath = ".\resources\$SqlVersion"
+  if (!(Test-Path $sqlResourcesPath)) {
+    Start-Process -Wait -FilePath $PSScriptRoot\packages\mssql\$SqlVersion\$SqlExe -ArgumentList /q, /x:$sqlResourcesPath
+  }
+  
+  $sqlTag = "mssql:$SqlVersion-$WindowsVersion"
   $sqlBuildArgs = $buildArgs
   $sqlBuildArgs += "-t $sqlTag"
   $sqlBuildArgs += "-t $Registry/$sqlTag"
-  $sqlBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
   $sqlBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
-  #$sqlBuildArgs += "--build-arg CU=$CUUrl"
+  $sqlBuildArgs += "--build-arg MSSQL_PATH=""$sqlResourcesPath"""
+  $sqlBuildArgs += "--build-arg MSSQL_BUILD=$SqlBuild"
   $sqlBuildArgs += "."
-  Push-Location .\dependencies\mssql
+  Write-Host $sqlBuildArgs
   Start-Process docker -ArgumentList $sqlBuildArgs -NoNewWindow -Wait
   Pop-Location
 
-  $TraefikVersion = "2.1.3"
+  # Traefik
   $traefikTag = "traefik:$TraefikVersion-$WindowsVersion"
   $traefikBuildArgs = $buildArgs
   $traefikBuildArgs += "-t $traefikTag"

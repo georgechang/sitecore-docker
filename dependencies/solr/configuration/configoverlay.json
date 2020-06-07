@@ -1,0 +1,9 @@
+{
+  "add-requesthandler": {
+    "name": "/admin/ping",
+    "class": "solr.PingRequestHandler",
+    "invariants": {
+      "q": "solrpingquery"
+    }
+  }
+}

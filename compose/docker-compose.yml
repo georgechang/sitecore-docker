@@ -16,6 +16,8 @@ services:
   solr:
     image: solr:${SOLR_VERSION}-${WIN_VERSION}
     isolation: process
+    ports:
+      - "18983:8983"
     volumes:
       - C:/docker/solr:C:/solr/server/solr/mydata
 
@@ -62,11 +64,10 @@ services:
       - SC_DEBUG=${SC_DEBUG}
       - SC_CUSTOMERRORS=${SC_CUSTOMERRORS}
       - SI_URL=${SI_URL}
-
+      - SITECORE_LICENSE=${LICENSE_STRING}
     volumes:
       - C:/docker/sitecore/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/certificates:C:/certificates
-      - ${PATH_LICENSE}:C:/license
 
   # identity:
   #   image: identity:${SC_VERSION}-${WIN_VERSION}
@@ -89,8 +90,8 @@ services:
     depends_on:
       - mssql
       - solr
-    # ports:
-    #   - "4444:80"
+    ports:
+      - "4444:80"
     environment:
       - SITECORE_CONNECTIONSTRINGS_MESSAGING=${SC_CONNSTRING_MESSAGING}
       - SITECORE_CONNECTIONSTRINGS_REPORTING=${SC_CONNSTRING_REPORTING}
@@ -103,10 +104,10 @@ services:
       - XC_CERT_THUMBPRINT=${XC_CERT_THUMBPRINT}
       - XC_ALLOW_INVALID_CERT=${XC_ALLOW_INVALID_CERT}
       - SOLR_REQUIRE_HTTPS=${SOLR_REQUIRE_HTTPS}
+      - SITECORE_LICENSE=${LICENSE_STRING}
     volumes:
       - C:/docker/xconnect/logs:C:/inetpub/wwwroot/App_Data/logs
       - C:/docker/certificates:C:/certificates
-      - ${PATH_LICENSE}:C:/license
 
   xconnect-indexworker:
     image: ${REGISTRY}xconnect.indexworker:${SC_VERSION}-${WIN_VERSION}
@@ -118,8 +119,7 @@ services:
       - SITECORE_CONNECTIONSTRINGS_COLLECTION=${SC_CONNSTRING_SHARDMAPMANAGER}
       - SITECORE_CONNECTIONSTRINGS_SOLRCORE=${SOLR_XDB_CORE_URL}
       - SOLR_REQUIRE_HTTPS=${SOLR_REQUIRE_HTTPS}
-    volumes:
-      - ${PATH_LICENSE}:C:/license
+      - SITECORE_LICENSE=${LICENSE_STRING}
 
   xconnect-maengine:
     image: ${REGISTRY}xconnect.maengine:${SC_VERSION}-${WIN_VERSION}
@@ -135,9 +135,9 @@ services:
       - SITECORE_CONNECTIONSTRINGS_XDB.MARKETINGAUTOMATION=${SC_CONNSTRING_MARKETINGAUTOMATION}
       - SITECORE_CONNECTIONSTRINGS_XDB.REFERENCEDATA=${SC_CONNSTRING_REFERENCEDATA}
       - XC_ALLOW_INVALID_CERT=${XC_ALLOW_INVALID_CERT}
+      - SITECORE_LICENSE=${LICENSE_STRING}
     volumes:
       - C:/docker/certificates:C:/certificates
-      - ${PATH_LICENSE}:C:/license
 
   xconnect-processingengine:
     image: ${REGISTRY}xconnect.processingengine:${SC_VERSION}-${WIN_VERSION}
@@ -160,6 +160,6 @@ services:
       - SITECORE_CONNECTIONSTRINGS_XCONNECT.SEARCH=${XC_URL}
       - SITECORE_CONNECTIONSTRINGS_XCONNECT.SEARCH.CERTIFICATE=${XC_CERT_THUMBPRINT}
       - XC_ALLOW_INVALID_CERT=${XC_ALLOW_INVALID_CERT}
+      - SITECORE_LICENSE=${LICENSE_STRING}
     volumes:
       - C:/docker/certificates:C:/certificates
-      - ${PATH_LICENSE}:C:/license

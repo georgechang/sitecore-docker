@@ -8,8 +8,10 @@ ARG CONFIGURATION
 COPY --from=powershell ["/PowerShell", "/PowerShell"]
 # COPY --from=tool /Windows/System32/certoc.exe /configuration/certoc.exe
 COPY --from=builder /utilities /utilities
+COPY --from=builder /logmonitor /logmonitor
 COPY --from=builder ./resources/identity/Content/Website /app
 COPY ${CONFIGURATION} /configuration
 USER ContainerAdministrator
 RUN setx /m PATH "%PATH%;C:\PowerShell"
+COPY ./logmonitor/LogMonitorConfig.json /logmonitor/LogMonitorConfig.json
 ENTRYPOINT ["pwsh", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/sitecoreruntime", "-Expression", "dotnet /app/Sitecore.IdentityServer.Host.dll"]

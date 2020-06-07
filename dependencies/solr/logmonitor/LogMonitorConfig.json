@@ -1,0 +1,12 @@
+{
+  "LogConfig": {
+    "sources": [
+      {
+        "type": "File",
+        "directory": "c:\\solr\\server\\logs",
+        "filter": "solr.log",
+        "includeSubdirectories": false
+      }
+    ]
+  }
+}

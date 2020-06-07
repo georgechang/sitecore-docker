@@ -12,6 +12,9 @@ RUN Enable-LocalUser Administrator; \
 	Remove-Item secpol.cfg; \
 	Set-LocalUser Administrator -Password (New-Object SecureString)
 COPY --from=builder ./utilities /utilities
+COPY --from=builder ./logmonitor /logmonitor
 COPY --from=builder ./resources/xconnect/Content/Website/App_Data/jobs/continuous/AutomationEngine /app
 COPY ${CONFIGURATION} /configuration
-ENTRYPOINT ["powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data"]
+COPY ./logmonitor/LogMonitorConfig.json /logmonitor/LogMonitorConfig.json
+USER ContainerAdministrator
+ENTRYPOINT ["C:\\logmonitor\\LogMonitor.exe", "powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data"]

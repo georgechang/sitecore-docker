@@ -2,85 +2,85 @@
   {
     "dbName": "sc_Core",
     "dbFiles": [
-      "C:\\data\\sc_Core_Primary.mdf",
-      "C:\\data\\sc_Core_Primary.ldf"
+      "C:\\data\\sc_Core.mdf",
+      "C:\\data\\sc_Core.ldf"
     ]
   },
   {
     "dbName": "sc_Master",
     "dbFiles": [
-      "C:\\data\\sc_Master_Primary.mdf",
-      "C:\\data\\sc_Master_Primary.ldf"
+      "C:\\data\\sc_Master.mdf",
+      "C:\\data\\sc_Master.ldf"
     ]
   },
   {
     "dbName": "sc_Web",
     "dbFiles": [
-      "C:\\data\\sc_Web_Primary.mdf",
-      "C:\\data\\sc_Web_Primary.ldf"
+      "C:\\data\\sc_Web.mdf",
+      "C:\\data\\sc_Web.ldf"
     ]
   },
   {
     "dbName": "sc_Reporting",
     "dbFiles": [
-      "C:\\data\\sc_Reporting_Primary.mdf",
-      "C:\\data\\sc_Reporting_Primary.ldf"
+      "C:\\data\\sc_Reporting.mdf",
+      "C:\\data\\sc_Reporting.ldf"
     ]
   },
   {
     "dbName": "sc_ReferenceData",
     "dbFiles": [
-      "C:\\data\\sc_ReferenceData_Primary.mdf",
-      "C:\\data\\sc_ReferenceData_Primary.ldf"
+      "C:\\data\\sc_ReferenceData.mdf",
+      "C:\\data\\sc_ReferenceData.ldf"
     ]
   },
   {
     "dbName": "sc_Messaging",
     "dbFiles": [
-      "C:\\data\\sc_Messaging_Primary.mdf",
-      "C:\\data\\sc_Messaging_Primary.ldf"
+      "C:\\data\\sc_Messaging.mdf",
+      "C:\\data\\sc_Messaging.ldf"
     ]
   },
   {
     "dbName": "sc_ExperienceForms",
     "dbFiles": [
-      "C:\\data\\sc_ExperienceForms_Primary.mdf",
-      "C:\\data\\sc_ExperienceForms_Primary.ldf"
+      "C:\\data\\sc_ExperienceForms.mdf",
+      "C:\\data\\sc_ExperienceForms.ldf"
     ]
   },
   {
     "dbName": "sc_MarketingAutomation",
     "dbFiles": [
-      "C:\\data\\sc_MarketingAutomation_Primary.mdf",
-      "C:\\data\\sc_MarketingAutomation_Primary.ldf"
+      "C:\\data\\sc_MarketingAutomation.mdf",
+      "C:\\data\\sc_MarketingAutomation.ldf"
     ]
   },
   {
     "dbName": "sc_Processing.Pools",
     "dbFiles": [
-      "C:\\data\\sc_Processing.Pools_Primary.mdf",
-      "C:\\data\\sc_Processing.Pools_Primary.ldf"
+      "C:\\data\\sc_Processing.Pools.mdf",
+      "C:\\data\\sc_Processing.Pools.ldf"
     ]
   },
   {
     "dbName": "sc_Processing.Tasks",
     "dbFiles": [
-      "C:\\data\\sc_Processing.Tasks_Primary.mdf",
-      "C:\\data\\sc_Processing.Tasks_Primary.ldf"
+      "C:\\data\\sc_Processing.Tasks.mdf",
+      "C:\\data\\sc_Processing.Tasks.ldf"
     ]
   },
   {
     "dbName": "sc_ProcessingEngineStorage",
     "dbFiles": [
-      "C:\\data\\sc_ProcessingEngineStorage_Primary.mdf",
-      "C:\\data\\sc_ProcessingEngineStorage_Primary.ldf"
+      "C:\\data\\sc_ProcessingEngineStorage.mdf",
+      "C:\\data\\sc_ProcessingEngineStorage.ldf"
     ]
   },
   {
     "dbName": "sc_ProcessingEngineTasks",
     "dbFiles": [
-      "C:\\data\\sc_ProcessingEngineTasks_Primary.mdf",
-      "C:\\data\\sc_ProcessingEngineTasks_Primary.ldf"
+      "C:\\data\\sc_ProcessingEngineTasks.mdf",
+      "C:\\data\\sc_ProcessingEngineTasks.ldf"
     ]
   },
   {
@@ -107,8 +107,8 @@
   {
     "dbName": "sc_EXM.Master",
     "dbFiles": [
-      "C:\\data\\sc_EXM.Master_Primary.mdf",
-      "C:\\data\\sc_EXM.Master_Primary.ldf"
+      "C:\\data\\sc_EXM.Master.mdf",
+      "C:\\data\\sc_EXM.Master.ldf"
     ]
   }
 ]
