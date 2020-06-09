@@ -16,5 +16,4 @@ COPY --from=builder ./logmonitor /logmonitor
 COPY --from=builder ./resources/xconnect/Content/Website/App_Data/jobs/continuous/AutomationEngine /app
 COPY ${CONFIGURATION} /configuration
 COPY ./logmonitor/LogMonitorConfig.json /logmonitor/LogMonitorConfig.json
-USER ContainerAdministrator
 ENTRYPOINT ["C:\\logmonitor\\LogMonitor.exe", "powershell", "./utilities/Bootstrapper.ps1", "-Path", "/configuration/configuration.json", "-AppPath", "/app", "-LicensePath", "/app/App_Data"]

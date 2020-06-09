@@ -18,6 +18,7 @@ param(
   $SolrBaseUrl = "https://archive.apache.org/dist/lucene/solr",
   [switch]$Dependencies = $false,
   [switch]$Builder = $false,
+  [switch]$Installer = $false,
   [switch]$PowerShell = $false,
   [switch]$Application = $false
 )
@@ -49,9 +50,9 @@ if ($PowerShell) {
 # build builder image
 if ($Builder) {
   Push-Location .\builder\
-  $sitecoreResourcesPath = ".\resources\$SitecoreVersion\sitecore"
-  $xconnectResourcesPath = ".\resources\$SitecoreVersion\xconnect"
-  $identityResourcesPath = ".\resources\$SitecoreVersion\identity"
+  $sitecoreResourcesPath = ".\resources\sitecore"
+  $xconnectResourcesPath = ".\resources\xconnect"
+  $identityResourcesPath = ".\resources\identity"
   
   if (!(Test-Path $sitecoreResourcesPath)) {
     Expand-Archive $PSScriptRoot\packages\sitecore\$SitecoreVersion\$SitecoreArchive -DestinationPath $sitecoreResourcesPath -Force
@@ -68,12 +69,22 @@ if ($Builder) {
   $builderBuildArgs = $buildArgs
   $builderBuildArgs += "-t builder:$SitecoreVersion-$WindowsVersion"
   $builderBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
-  $builderBuildArgs += "--build-arg CONFIGURATION_PATH=""./configuration/$SitecoreVersion"""
-  $builderBuildArgs += "--build-arg SC_PATH=""$sitecoreResourcesPath"""
-  $builderBuildArgs += "--build-arg XC_PATH=""$xconnectResourcesPath"""
-  $builderBuildArgs += "--build-arg SI_PATH=""$identityResourcesPath"""
   $builderBuildArgs += "."
   Start-Process docker -ArgumentList $builderBuildArgs -NoNewWindow -Wait 
+  Pop-Location
+}
+
+# build installer image
+if ($Installer) {
+  Push-Location .\installer\
+  $installerTag = "installer:$SitecoreVersion-$WindowsVersion"
+  $installerBuildArgs = $buildArgs
+  $installerBuildArgs += "-t $installerTag"
+  $installerBuildArgs += "-t $Registry/$installerTag"
+  $installerBuildArgs += "--build-arg WIN_VERSION=$WindowsVersion"
+  $installerBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
+  $installerBuildArgs += "."
+  Start-Process docker -ArgumentList $installerBuildArgs -NoNewWindow -Wait 
   Pop-Location
 }
 

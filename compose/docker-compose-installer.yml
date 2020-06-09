@@ -17,7 +17,7 @@ services:
       - ${PATH_DATA}/solr:C:/solr/server/solr/mydata
 
   installer:
-    image: builder:${SC_VERSION}-${WIN_VERSION}
+    image: installer:${SC_VERSION}-${WIN_VERSION}
     isolation: process
     depends_on:
       - mssql
@@ -27,4 +27,6 @@ services:
       - DATABASE_SERVER=mssql
       - DATABASE_USERNAME=sa
       - DATABASE_PASSWORD=${SQL_SA_PASSWORD}
+      - SHARD_COUNT=2
+      - ADMIN_PASSWORD=b
     command: "pwsh.exe /utilities/Installer.ps1"

@@ -1,12 +1,5 @@
 ARG WIN_VERSION
-FROM powershell:nanoserver-${WIN_VERSION}
-ARG SC_PATH
-ARG XC_PATH
-ARG SI_PATH
-ARG CONFIGURATION_PATH
+FROM mcr.microsoft.com/windows/nanoserver:${WIN_VERSION}
 COPY ./utilities /utilities
+COPY ./resources /resources
 COPY ./logmonitor/LogMonitor.exe /logmonitor/LogMonitor.exe
-COPY ${CONFIGURATION_PATH} /configuration
-COPY ${SC_PATH} /resources/sitecore
-COPY ${XC_PATH} /resources/xconnect
-COPY ${SI_PATH} /resources/identity
