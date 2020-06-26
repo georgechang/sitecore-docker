@@ -1,18 +1,15 @@
 ARG WIN_VERSION
 ARG SC_VERSION
 FROM builder:${SC_VERSION}-${WIN_VERSION} as builder
-ARG JAVA_VERSION
 ARG JAVA_BASE_URL
-ARG JAVA_URL_VERSION
 ARG SOLR_VERSION
 ARG SOLR_BASE_URL
 SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN New-Item -ItemType Directory -Path C:\temp | Out-Null; \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
-RUN Write-Host ('Installing JRE {0}...' -f $env:JAVA_VERSION); \
-	$url = ('{0}x64_windows_{1}.zip' -f $env:JAVA_BASE_URL, $env:JAVA_URL_VERSION); \
+RUN Write-Host ('Installing JRE...'); \
 	Write-Host ('Downloading {0} ...' -f $url); \
-	Invoke-WebRequest -Uri $url -OutFile 'openjdk.zip'; \
+	Invoke-WebRequest -Uri $env:JAVA_BASE_URL -OutFile 'openjdk.zip'; \
 	Write-Host 'Expanding ...'; \
 	Expand-Archive openjdk.zip -DestinationPath C:\temp; \
 	Move-Item -Path C:\temp\* -Destination C:\openjdk;

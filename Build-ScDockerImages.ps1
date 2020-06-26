@@ -2,19 +2,18 @@ param(
   $WindowsVersion = "2004",
   $SitecoreVersion = "9.3.0",
   $SolrVersion = "8.5.2",
-  $PowerShellVersion = "7.0.1",
-  $SqlVersion = "2019-CU4",
+  $PowerShellVersion = "7.0.2",
+  $SqlVersion = "2019-CU5",
   $SqlBuild = "15",
-  $TraefikVersion = "2.1.3",
+  $TraefikVersion = "latest",
   $Registry = "george.azurecr.io",
   $SitecoreArchive = "Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
   $XConnectArchive = "Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
   $IdentityArchive = "Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
-  $PowerShellArchive = "PowerShell-7.0.1-win-x64.zip",
+  $PowerShellArchive = "PowerShell-7.0.2-win-x64.zip",
   $SqlExe = "SQLServer2019-DEV-x64-ENU.exe",
-  $JavaVersion = "8u232",
-  $JavaUrlVersion = "8u232b09",
-  $JavaBaseUrl = "https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jre_",
+  $JavaVersion = "8u252",
+  $JavaUrlVersion = "8u252b09",
   $SolrBaseUrl = "https://archive.apache.org/dist/lucene/solr",
   [switch]$Dependencies = $false,
   [switch]$Builder = $false,
@@ -99,10 +98,7 @@ if ($Dependencies) {
   $solrBuildArgs += "--build-arg SC_VERSION=$SitecoreVersion"
   $solrBuildArgs += "--build-arg SOLR_VERSION=$SolrVersion"
   $solrBuildArgs += "--build-arg SOLR_BASE_URL=""$SolrBaseUrl"""
-  $solrBuildArgs += "--build-arg JAVA_VERSION=$JavaVersion"
-  $solrBuildArgs += "--build-arg JAVA_URL_VERSION=$JavaUrlVersion"
-  $solrBuildArgs += "--build-arg JAVA_BASE_URL=""$JavaBaseUrl"""
-  $solrBuildArgs += "--build-arg CONFIGURATION=""./configuration/$SitecoreVersion"""
+  $solrBuildArgs += "--build-arg JAVA_BASE_URL=""https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk$JavaVersion-b09/OpenJDK8U-jre_x64_windows_$JavaUrlVersion.zip"""
   $solrBuildArgs += "."
 
   Push-Location .\dependencies\solr
