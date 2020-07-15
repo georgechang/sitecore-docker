@@ -1,0 +1,12 @@
+{
+  "databases": [
+    {
+      "name": "Core",
+      "dacpac": "core.dacpac"
+    },
+    {
+      "name": "Master",
+      "dacpac": "master.dacpac"
+    }
+  ]
+}

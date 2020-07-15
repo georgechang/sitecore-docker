@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/powershell
+ARG SC_VERSION
+ARG SOLR_VERSION
+COPY ./configuration/${SC_VERSION} /home/configuration
+COPY ./scripts /home/scripts
+USER root
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+RUN apt-get update && apt-get install mssql-tools unixodbc-dev
+SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+RUN Invoke-WebRequest -Uri "https://downloads.apache.org/lucene/solr/$env:SOLR_VERSION/solr-$env:SOLR_VERSION.zip" -OutFile /tmp/solr.zip; \
+	Expand-Archive /tmp/solr.zip -DestinationPath /tmp; \
+	Remove-Item /tmp/solr.zip -Force; \
+	New-Item -Path /tmp/solr -Value /tmp/solr-$env:SOLR_VERSION -ItemType SymbolicLink
+WORKDIR /home
+CMD ["/home/scripts/Startup.ps1"]
