@@ -13,7 +13,7 @@ function Invoke-DatabaseScript {
 	)
 
 	if (Test-Path $(Join-Path $ResourcesPath -ChildPath $Script.file)) {
-		$variables.GetEnumerator() | % { Set-Variable -Name $_.Key -Value $_.Value }
+		$variables.GetEnumerator() | ForEach-Object { Set-Variable -Name $_.Key -Value $_.Value }
 
 		Write-Host "Executing $($Script.file)..."
 		$scriptContent = Get-Content $(Join-Path $ResourcesPath -ChildPath $Script.file) -Raw

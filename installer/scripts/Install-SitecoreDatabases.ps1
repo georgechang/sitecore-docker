@@ -12,13 +12,13 @@ $variables = @{
 	exmUserName             = "exmmasteruser";
 	tasksUserName           = "tasksuser";
 }
-$variables.add("corePassword", $password)
-$variables.add("securityPassword", "$password")
-$variables.add("masterPassword", $password)
-$variables.add("webPassword", $password)
-$variables.add("experienceFormsPassword", $password)
-$variables.add("exmPassword", $password)
-$variables.add("tasksPassword", $password)
+$variables.add("corePassword", $corePassword ?? $password)
+$variables.add("securityPassword", $securityPassword ?? $password)
+$variables.add("masterPassword", $masterPassword ?? $password)
+$variables.add("webPassword", $webPassword ?? $password)
+$variables.add("experienceFormsPassword", $experienceFormsPassword ?? $password)
+$variables.add("exmPassword", $exmPassword ?? $password)
+$variables.add("tasksPassword", $tasksPassword ?? $password)
 
 $variables.add("adminPassword", $env:ADMIN_PASSWORD)
 

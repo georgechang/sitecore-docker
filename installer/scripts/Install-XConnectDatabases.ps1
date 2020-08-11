@@ -13,13 +13,14 @@ $variables = @{
 	reportingUserName        = "reportinguser";
 	collectionUserName       = "collectionuser";
 }
-$variables.add("automationPassword", $password)
-$variables.add("messagingPassword", "$password")
-$variables.add("poolsPassword", $password)
-$variables.add("processingenginePassword", $password)
-$variables.add("referenceDataPassword", $password)
-$variables.add("reportingPassword", $password)
-$variables.add("collectionPassword", $password)
+
+$variables.add("automationPassword", $automationPassword ?? $password)
+$variables.add("messagingPassword", $messagingPassword ?? $password)
+$variables.add("poolsPassword", $poolsPassword ?? $password)
+$variables.add("processingEnginePassword", $processingEnginePassword ?? $password)
+$variables.add("referenceDataPassword", $referenceDataPassword ?? $password)
+$variables.add("reportingPassword", $reportingPassword ?? $password)
+$variables.add("collectionPassword", $collectionPassword ?? $password)
 
 Publish-SitecoreDatabases -Path ..\configuration\xdb-configuration.json -ResourcesPath ..\resources\xconnect -DatabaseServer $dbServer -DatabasePrefix $dbPrefix -DatabaseUserName $username -DatabasePassword $password -Variables $variables
 
